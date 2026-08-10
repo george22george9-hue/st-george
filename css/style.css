@@ -1,0 +1,45 @@
+/* ==========================================================================
+   General Styles overrides for navigation and layout
+   ========================================================================== */
+
+.hover-gold:hover {
+    color: var(--color-accent) !important;
+}
+
+.transition-fast {
+    transition: all var(--transition-fast);
+}
+
+.social-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--color-text-muted);
+    transition: all var(--transition-fast);
+}
+
+.social-btn:hover {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-primary-dark);
+    box-shadow: var(--glow-gold);
+    transform: translateY(-3px);
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--color-primary-dark);
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(212, 175, 55, 0.4);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(212, 175, 55, 0.8);
+}

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>كنيسة الشهيد العظيم مارجرجس بسندبيس</title>
+    
+    <!-- Bootstrap 5 RTL CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+    
+    <!-- Google Fonts: Cairo & Amiri -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/cinematic.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Page Transition Loader -->
+    <div id="page-transition">
+        <div class="cross-loader"></div>
+    </div>
+
+    <!-- 3D WebGL Background Canvas -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Header & Navigation -->
+    <header class="navbar navbar-expand-lg fixed-top glass-panel" id="main-nav" style="border-radius: 0; border-top: none; border-left: none; border-right: none;">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/" data-link>
+                <div class="me-3 rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 50px; height: 50px; border: 2px solid var(--color-accent); background: rgba(212,175,55,0.1);">
+                    <i class="fas fa-cross text-gold-3d fs-4"></i>
+                </div>
+                <div class="d-flex flex-column lh-1">
+                    <span class="fs-5 fw-bold text-white mb-1">كنيسة مارجرجس</span>
+                    <span class="fs-6 text-gold-3d">بسندبيس</span>
+                </div>
+            </a>
+            
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fas fa-bars fs-3" style="color: var(--color-accent);"></i>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-center fs-5">
+                    <li class="nav-item"><a class="nav-link text-white hover-gold" href="/" data-link>الرئيسية</a></li>
+                    <li class="nav-item"><a class="nav-link text-white hover-gold" href="/about" data-link>عن الكنيسة</a></li>
+                    <li class="nav-item"><a class="nav-link text-white hover-gold" href="/services" data-link>الخدمات</a></li>
+                    <li class="nav-item"><a class="nav-link text-white hover-gold" href="/masses" data-link>المواعيد</a></li>
+                    <li class="nav-item"><a class="nav-link text-white hover-gold" href="/store" data-link>المتجر</a></li>
+                </ul>
+                <div class="d-flex ms-lg-3 mt-3 mt-lg-0">
+                    <a href="/donate" data-link class="btn-gold-3d">
+                        <i class="fas fa-hand-holding-heart"></i> تبرع الآن
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Router View Container (Pages are injected here) -->
+    <main id="app-router-view">
+        <!-- Content will be loaded dynamically by router.js -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-section position-relative overflow-hidden pt-5 pb-3 glass-panel" style="border-radius: 0; border-bottom: none; border-left: none; border-right: none; margin-top: auto; background: var(--color-primary-dark);">
+        <div class="coptic-pattern"></div>
+        <div class="container position-relative z-1">
+            <div class="row mb-4">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="me-3 rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; border: 1px solid var(--color-accent); background: rgba(212,175,55,0.1);">
+                            <i class="fas fa-cross text-gold-3d fs-3"></i>
+                        </div>
+                        <div>
+                            <h4 class="mb-0 text-white">كنيسة الشهيد العظيم</h4>
+                            <h3 class="text-gold-3d mb-0">مارجرجس بسندبيس</h3>
+                        </div>
+                    </div>
+                    <p class="text-text-muted mt-3 pe-lg-4">
+                        كنيسة تجمعنا... وإيمان يقودنا. نرحب بالجميع في بيت الله للصلاة والنمو الروحي والشركة المحبة.
+                    </p>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4 mb-lg-0">
+                    <h5 class="text-white mb-3">روابط سريعة</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="/" data-link class="text-text-muted text-decoration-none hover-gold transition-fast">الرئيسية</a></li>
+                        <li class="mb-2"><a href="/services" data-link class="text-text-muted text-decoration-none hover-gold transition-fast">الخدمات الروحية</a></li>
+                        <li class="mb-2"><a href="/masses" data-link class="text-text-muted text-decoration-none hover-gold transition-fast">مواعيد القداسات</a></li>
+                        <li class="mb-2"><a href="/store" data-link class="text-text-muted text-decoration-none hover-gold transition-fast">متجر الكنيسة</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <h5 class="text-white mb-3">تواصل معنا</h5>
+                    <ul class="list-unstyled text-text-muted">
+                        <li class="mb-2"><i class="fas fa-map-marker-alt text-accent me-2"></i> القليوبية، شبرا الخيمة، سندبيس</li>
+                        <li class="mb-2"><i class="fas fa-phone text-accent me-2"></i> +20 123 456 7890</li>
+                        <li class="mb-2"><i class="fas fa-envelope text-accent me-2"></i> info@stgeorge-sendpes.com</li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h5 class="text-white mb-3">تابعنا</h5>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="btn btn-outline-light rounded-circle social-btn"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="btn btn-outline-light rounded-circle social-btn"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="btn btn-outline-light rounded-circle social-btn"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr style="border-color: rgba(212, 175, 55, 0.2);">
+            <div class="text-center text-text-muted small mt-3">
+                &copy; <span id="current-year"></span> كنيسة الشهيد العظيم مارجرجس بسندبيس. جميع الحقوق محفوظة.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Three.js for 3D Background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script src="js/router.js"></script>
+    <script src="js/three-scene.js"></script>
+    <script src="js/animations.js"></script>
+    
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
