@@ -34,20 +34,25 @@ window.initGSAPAnimations = () => {
     );
 
     // 3. ScrollTrigger for sections
-    const fathersGrid = document.getElementById('fathers-grid');
-    if (fathersGrid) {
-        gsap.fromTo("#fathers-grid .col-lg-4",
+    const fathersGrid1 = document.getElementById('fathers-grid-1');
+    const fathersGrid2 = document.getElementById('fathers-grid-2');
+    
+    if (fathersGrid1) {
+        gsap.fromTo("#fathers-grid-1 .col-lg-4",
             { y: 50, opacity: 0 },
             {
-                y: 0, 
-                opacity: 1, 
-                duration: 0.8, 
-                stagger: 0.2, 
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: "#fathers-grid",
-                    start: "top 80%",
-                }
+                y: 0, opacity: 1, duration: 0.8, ease: "power2.out",
+                scrollTrigger: { trigger: "#fathers-grid-1", start: "top 85%" }
+            }
+        );
+    }
+    
+    if (fathersGrid2) {
+        gsap.fromTo("#fathers-grid-2 .col-lg-4",
+            { y: 50, opacity: 0 },
+            {
+                y: 0, opacity: 1, duration: 0.8, stagger: 0.2, ease: "power2.out",
+                scrollTrigger: { trigger: "#fathers-grid-2", start: "top 85%" }
             }
         );
     }
