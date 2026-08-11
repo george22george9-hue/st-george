@@ -25,7 +25,7 @@ export default function Navbar() {
   const navLinks = [
     { href: '/', label: 'الرئيسية' },
     { href: '/about', label: 'عن الكنيسة' },
-    { href: '/services', label: 'الخدمات' },
+    { href: '/services', label: 'الخدمات والأنشطة' },
     { href: '/books', label: 'المكتبة الرقمية' },
     { href: '/media', label: 'الوسائط' },
     { href: '/masses', label: 'المواعيد' },

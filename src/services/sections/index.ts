@@ -8,6 +8,9 @@ import {
   UpdateSectionInput,
 } from '@/lib/validation/sections';
 import { Section } from '@/types/database';
+import { CORE_SECTION_SLUGS, CORE_SECTIONS_DATA } from '@/lib/constants/sections';
+
+export { CORE_SECTION_SLUGS, CORE_SECTIONS_DATA };
 
 export async function getSections(includeInactive = false): Promise<Section[]> {
   const supabase = await createClient();
