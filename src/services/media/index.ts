@@ -15,21 +15,25 @@ export async function getMediaItems(
   categoryId?: string,
   includeUnpublished = false
 ): Promise<Media[]> {
-  const supabase = await createClient();
-  let query = supabase.from('media').select('*').order('created_at', { ascending: false });
+  try {
+    const supabase = await createClient();
+    let query = supabase.from('media').select('*').order('created_at', { ascending: false });
 
-  if (!includeUnpublished) {
-    query = query.eq('is_published', true);
+    if (!includeUnpublished) {
+      query = query.eq('is_published', true);
+    }
+
+    if (sectionId) query = query.eq('section_id', sectionId);
+    if (categoryId) query = query.eq('category_id', categoryId);
+
+    const { data, error } = await query;
+    if (!error && data) {
+      return data as Media[];
+    }
+  } catch {
+    // Fail-safe
   }
-
-  if (sectionId) query = query.eq('section_id', sectionId);
-  if (categoryId) query = query.eq('category_id', categoryId);
-
-  const { data, error } = await query;
-  if (error) {
-    throw new Error(`Failed to fetch media items: ${error.message}`);
-  }
-  return (data as Media[]) || [];
+  return [];
 }
 
 export async function uploadAndCreateMedia(

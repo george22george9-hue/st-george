@@ -15,33 +15,34 @@ export async function getContentItems(options?: {
   contentType?: ContentType;
   includeUnpublished?: boolean;
 }): Promise<ContentItem[]> {
-  const supabase = await createClient();
-  let query = supabase.from('content_items').select('*').order('display_order', { ascending: true }).order('created_at', { ascending: false });
+  try {
+    const supabase = await createClient();
+    let query = supabase.from('content_items').select('*').order('display_order', { ascending: true }).order('created_at', { ascending: false });
 
-  if (!options?.includeUnpublished) {
-    query = query.eq('is_published', true);
+    if (!options?.includeUnpublished) {
+      query = query.eq('is_published', true);
+    }
+
+    if (options?.sectionId) {
+      query = query.eq('section_id', options.sectionId);
+    }
+
+    if (options?.categoryId) {
+      query = query.eq('category_id', options.categoryId);
+    }
+
+    if (options?.contentType) {
+      query = query.eq('content_type', options.contentType);
+    }
+
+    const { data, error } = await query;
+    if (!error && data) {
+      return data as ContentItem[];
+    }
+  } catch {
+    // Fail-safe
   }
-
-  if (options?.sectionId) {
-    query = query.eq('section_id', options.sectionId);
-  }
-
-  if (options?.categoryId) {
-    query = query.eq('category_id', options.categoryId);
-  }
-
-  if (options?.contentType) {
-    query = query.eq('content_type', options.contentType);
-  }
-
-  const { data, error } = await query;
-  if (error) {
-    // Graceful check if table does not exist in schema
-    if (error.code === '42P01') return [];
-    throw new Error(`Failed to fetch content items: ${error.message}`);
-  }
-
-  return (data as ContentItem[]) || [];
+  return [];
 }
 
 export async function getContentItemById(id: string): Promise<{ item: ContentItem; media: ContentMedia[] } | null> {
