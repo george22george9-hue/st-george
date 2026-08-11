@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import CopticCross from '@/components/ornaments/CopticCross';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface BookViewerModalProps {
   bookId: string;
@@ -10,6 +11,7 @@ interface BookViewerModalProps {
 
 export default function BookViewerModal({ bookId, bookTitle }: BookViewerModalProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useLanguage();
 
   return (
     <>
@@ -18,7 +20,7 @@ export default function BookViewerModal({ bookId, bookTitle }: BookViewerModalPr
         className="btn-burgundy px-4 py-3 fs-6"
       >
         <i className="fas fa-book-open me-1" />
-        <span>قراءة الكتاب الآن</span>
+        <span>{t.library.readBook}</span>
       </button>
 
       {isOpen && (
@@ -33,14 +35,14 @@ export default function BookViewerModal({ bookId, bookTitle }: BookViewerModalPr
               <div className="modal-header border-0 pb-2 flex-shrink-0">
                 <div className="d-flex align-items-center gap-2">
                   <CopticCross size={24} color="var(--color-gold-light)" />
-                  <h5 className="modal-title fw-bold text-parchment fs-5" style={{ fontFamily: 'var(--font-heading)' }}>
-                    قراءة: {bookTitle}
+                  <h5 className="modal-title fw-bold text-parchment fs-5" style={{ fontFamily: 'var(--font-kufi)' }}>
+                    {t.library.readBook}: {bookTitle}
                   </h5>
                 </div>
                 <button
                   type="button"
                   className="btn-close btn-close-white"
-                  aria-label="إغلاق"
+                  aria-label={t.common.close}
                   onClick={() => setIsOpen(false)}
                 />
               </div>
@@ -55,14 +57,14 @@ export default function BookViewerModal({ bookId, bookTitle }: BookViewerModalPr
 
               <div className="modal-footer border-0 pt-2 justify-content-between flex-shrink-0">
                 <span className="small text-white-50">
-                  المكتبة الرقمية - كنيسة الشهيد العظيم مارجرجس بسندبيس
+                  {t.library.publisher}
                 </span>
                 <button
                   type="button"
                   className="btn btn-outline-light rounded-pill btn-sm px-4"
                   onClick={() => setIsOpen(false)}
                 >
-                  إغلاق القارئ
+                  {t.library.closeViewer}
                 </button>
               </div>
             </div>

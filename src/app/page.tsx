@@ -2,6 +2,7 @@ import Link from 'next/link';
 import HeroSection from '@/components/home/HeroSection';
 import FathersSection from '@/components/home/FathersSection';
 import ServicesGrid, { DynamicSectionGroup } from '@/components/services/ServicesGrid';
+import ContactLocationSection from '@/components/home/ContactLocationSection';
 import CopticDivider from '@/components/ornaments/CopticDivider';
 import CopticPattern from '@/components/ornaments/CopticPattern';
 import BookCard from '@/components/books/BookCard';
@@ -50,7 +51,9 @@ export default async function HomePage() {
         <CopticPattern opacity={0.03} />
         <div className="container py-4 position-relative z-1">
           <div className="text-center mb-5">
-            <h2 className="display-5 fw-bold mb-2">أقسام وخدمات الكنيسة</h2>
+            <h2 className="display-5 fw-bold mb-2" style={{ fontFamily: 'var(--font-kufi)' }}>
+              أقسام وخدمات الكنيسة
+            </h2>
             <p className="text-muted fs-5 mb-0">تعرف على كافة الخدمات والأنشطة المتاحة لخدمة أبناء الكنيسة</p>
             <CopticDivider className="my-3" />
           </div>
@@ -63,7 +66,7 @@ export default async function HomePage() {
         <div className="container py-4">
           <div className="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
             <div>
-              <h2 className="fs-2 mb-1" style={{ color: 'var(--color-burgundy)' }}>
+              <h2 className="fs-2 mb-1" style={{ color: 'var(--color-burgundy)', fontFamily: 'var(--font-kufi)' }}>
                 المكتبة الرقمية الكنسية
               </h2>
               <p className="text-muted mb-0">كتب وقراءات روحية وطقسية متاحة للقراءة والاطلاع</p>
@@ -95,6 +98,9 @@ export default async function HomePage() {
           )}
         </div>
       </section>
+
+      {/* Contact & Location Section */}
+      <ContactLocationSection />
     </>
   );
 }

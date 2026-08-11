@@ -28,7 +28,9 @@ export default async function MediaPage() {
         <ScrollReveal direction="up">
           <div className="text-center mb-5">
             <Church3DIcon type="media" size="lg" className="mb-3" />
-            <h1 className="display-4 fw-bold mb-2">معرض الوسائط والنهضات</h1>
+            <h1 className="display-4 fw-bold mb-2" style={{ fontFamily: 'var(--font-kufi)' }}>
+              معرض الوسائط والنهضات
+            </h1>
             <p className="text-muted fs-5">التغطية المصورة والمرئية لصلوات ونهضات ومناسبات الكنيسة</p>
             <CopticDivider className="my-3" />
           </div>
@@ -38,7 +40,7 @@ export default async function MediaPage() {
           <ScrollReveal delayMs={150} direction="up">
             <div className="card-parchment p-5 text-center my-5 mx-auto" style={{ maxWidth: '650px' }}>
               <Church3DIcon type="media" size="md" className="mb-3" />
-              <h4 className="fs-4 mb-2" style={{ color: 'var(--color-burgundy)' }}>
+              <h4 className="fs-4 mb-2" style={{ color: 'var(--color-burgundy)', fontFamily: 'var(--font-kufi)' }}>
                 لا توجد وسائط منشورة حالياً
               </h4>
               <p className="text-muted mb-0">جاري إعداد والتغطية المصورة والنهضات الروحية وإضافتها إلى المعرض.</p>

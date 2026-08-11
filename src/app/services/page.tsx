@@ -38,7 +38,9 @@ export default async function ServicesPage() {
 
       <div className="container pt-4 pb-4 position-relative z-1">
         <div className="text-center mb-5">
-          <h1 className="display-4 fw-bold mb-2">خدمات الكنيسة والأنشطة الروحية</h1>
+          <h1 className="display-4 fw-bold mb-2" style={{ fontFamily: 'var(--font-kufi)' }}>
+            خدمات الكنيسة والأنشطة الروحية
+          </h1>
           <p className="text-muted fs-5">جميع الأنشطة، الاجتماعات، والخدمات المتاحة لكافة الأسر والمراحل العمرية</p>
           <CopticDivider className="my-3" />
         </div>
