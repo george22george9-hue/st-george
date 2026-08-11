@@ -13,7 +13,7 @@ export const contactInfo = {
   facebook: '',
 
   // TODO: Add official YouTube Channel URL here (e.g., "https://www.youtube.com/@...")
-  youtube: '',
+  youtube: 'https://www.youtube.com/@S.T..George..s',
 
   // TODO: Add official WhatsApp contact URL or phone link here (e.g., "https://wa.me/201234567890")
   whatsapp: '',
