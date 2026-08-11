@@ -43,6 +43,21 @@ export async function getCategoriesBySection(sectionId: string, includeInactive 
   return (data as Category[]) || [];
 }
 
+export async function getCategoryById(id: string): Promise<Category | null> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('categories')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (error) {
+    if (error.code === 'PGRST116') return null;
+    throw new Error(`Failed to fetch category by id: ${error.message}`);
+  }
+  return data as Category;
+}
+
 export async function getCategoryBySlug(sectionId: string, slug: string): Promise<Category | null> {
   const supabase = await createClient();
   const { data, error } = await supabase

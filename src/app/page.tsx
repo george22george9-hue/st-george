@@ -1,38 +1,40 @@
 import HeroSection from '@/components/home/HeroSection';
 import FathersSection from '@/components/home/FathersSection';
-import ServicesGrid from '@/components/services/ServicesGrid';
+import ServicesGrid, { DynamicSectionGroup } from '@/components/services/ServicesGrid';
 import CopticDivider from '@/components/ornaments/CopticDivider';
 import CopticPattern from '@/components/ornaments/CopticPattern';
 import BookCard from '@/components/books/BookCard';
-import { INITIAL_SERVICES } from '@/lib/static-content';
+import { getSections } from '@/services/sections';
+import { getAllCategories } from '@/services/categories';
+import { getPublishedBooks } from '@/services/books';
+import { Section, Category, Book } from '@/types/database';
 
-export default function HomePage() {
-  const sampleBooks = [
-    {
-      id: '1',
-      title: 'حياة الصلاة والتأمل',
-      author: 'الأنبا مرقس',
-      category: 'روحانيات',
-      description: 'كتاب في أساسيات الصلاة والتأمل اليومي في الكلمة المقدسة.',
-      coverUrl: '/images/church.jpg',
-    },
-    {
-      id: '2',
-      title: 'سيرة الشهيد مارجرجس',
-      author: 'آباء الكنيسة',
-      category: 'سنكسار وسير',
-      description: 'سيرة أمير الشهداء العظيم مارجرجس الروماني وتاريخ جهاده.',
-      coverUrl: '/images/st-george.jpg',
-    },
-    {
-      id: '3',
-      title: 'طقس القداس الإلهي',
-      author: 'اللجنة الطقسية',
-      category: 'طقس كنسي',
-      description: 'شرح مبسط لطقوس وألحان ورموز القداس الإلهي في الكنيسة القبطية.',
-      coverUrl: '/images/anba-morcos.jpg',
-    },
-  ];
+export const dynamic = 'force-dynamic';
+
+export default async function HomePage() {
+  let sections: Section[] = [];
+  let categories: Category[] = [];
+  let publishedBooks: Book[] = [];
+
+  try {
+    const [secList, catList, bookList] = await Promise.all([
+      getSections(false),
+      getAllCategories(false),
+      getPublishedBooks(),
+    ]);
+    sections = secList;
+    categories = catList;
+    publishedBooks = bookList.slice(0, 3); // Top 3 preview
+  } catch {
+    sections = [];
+    categories = [];
+    publishedBooks = [];
+  }
+
+  const dynamicGroups: DynamicSectionGroup[] = sections.map((sec) => ({
+    section: sec,
+    categories: categories.filter((cat) => cat.section_id === sec.id),
+  }));
 
   return (
     <>
@@ -51,7 +53,7 @@ export default function HomePage() {
             <p className="text-muted fs-5 mb-0">تعرف على كافة الخدمات والأنشطة المتاحة لخدمة أبناء الكنيسة</p>
             <CopticDivider className="my-3" />
           </div>
-          <ServicesGrid categories={INITIAL_SERVICES} />
+          <ServicesGrid groups={dynamicGroups} />
         </div>
       </section>
 
@@ -70,13 +72,26 @@ export default function HomePage() {
             </a>
           </div>
 
-          <div className="row g-4">
-            {sampleBooks.map((book) => (
-              <div className="col-lg-4 col-md-6" key={book.id}>
-                <BookCard {...book} />
-              </div>
-            ))}
-          </div>
+          {publishedBooks.length === 0 ? (
+            <div className="card-parchment p-5 text-center text-muted">
+              <i className="fas fa-book-open fs-1 mb-2 d-block text-secondary" />
+              لا توجد كتب متاحة في المكتبة الرقمية حالياً.
+            </div>
+          ) : (
+            <div className="row g-4">
+              {publishedBooks.map((book) => (
+                <div className="col-lg-4 col-md-6" key={book.id}>
+                  <BookCard
+                    id={book.id}
+                    title={book.title}
+                    author={book.author}
+                    coverUrl={book.cover_image_url}
+                    description={book.description}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </>

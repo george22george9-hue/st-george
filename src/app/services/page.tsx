@@ -1,13 +1,37 @@
-import ServicesGrid from '@/components/services/ServicesGrid';
+import ServicesGrid, { DynamicSectionGroup } from '@/components/services/ServicesGrid';
 import CopticDivider from '@/components/ornaments/CopticDivider';
 import CopticPattern from '@/components/ornaments/CopticPattern';
-import { INITIAL_SERVICES } from '@/lib/static-content';
+import { getSections } from '@/services/sections';
+import { getAllCategories } from '@/services/categories';
+import { Section, Category } from '@/types/database';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata = {
   title: 'الخدمات | كنيسة الشهيد العظيم مارجرجس بسندبيس',
 };
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  let sections: Section[] = [];
+  let categories: Category[] = [];
+
+  try {
+    const [secList, catList] = await Promise.all([
+      getSections(false),
+      getAllCategories(false),
+    ]);
+    sections = secList;
+    categories = catList;
+  } catch {
+    sections = [];
+    categories = [];
+  }
+
+  const dynamicGroups: DynamicSectionGroup[] = sections.map((sec) => ({
+    section: sec,
+    categories: categories.filter((cat) => cat.section_id === sec.id),
+  }));
+
   return (
     <section className="pt-5 mt-5 pb-5 position-relative" style={{ backgroundColor: 'var(--color-ivory)' }}>
       <CopticPattern opacity={0.03} />
@@ -19,7 +43,7 @@ export default function ServicesPage() {
           <CopticDivider className="my-3" />
         </div>
 
-        <ServicesGrid categories={INITIAL_SERVICES} />
+        <ServicesGrid groups={dynamicGroups} />
       </div>
     </section>
   );
