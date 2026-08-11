@@ -25,5 +25,5 @@ export const contactInfo = {
   addressEn: '',
 
   // TODO: Add official Google Maps URL here (e.g., "https://maps.google.com/?q=...")
-  googleMapsUrl: '',
+  googleMapsUrl: 'https://maps.app.goo.gl/FCnkex6B7Kg9g4DJ6',
 };
