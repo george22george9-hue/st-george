@@ -220,7 +220,27 @@ CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 
--- 7. Grant / Revoke Minimum Privileges on SECURITY DEFINER Functions
+-- 7. Grant / Revoke Minimum Privileges
+GRANT USAGE ON SCHEMA public TO anon, authenticated, service_role;
+
+-- Service role administrative table privileges
+GRANT ALL ON ALL TABLES IN SCHEMA public TO service_role;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO service_role;
+GRANT ALL ON ALL ROUTINES IN SCHEMA public TO service_role;
+
+-- Authenticated role table privileges (subject to RLS policies)
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.profiles TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.sections TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.categories TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.books TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.media TO authenticated;
+
+-- Anon role table privileges for public content (NO profiles access)
+GRANT SELECT ON public.sections TO anon;
+GRANT SELECT ON public.categories TO anon;
+GRANT SELECT ON public.books TO anon;
+GRANT SELECT ON public.media TO anon;
+
 REVOKE EXECUTE ON FUNCTION public.set_user_role(UUID, public.app_role) FROM PUBLIC, anon;
 GRANT EXECUTE ON FUNCTION public.set_user_role(UUID, public.app_role) TO authenticated;
 
@@ -234,9 +254,12 @@ ALTER TABLE public.books ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.media ENABLE ROW LEVEL SECURITY;
 
 -- 9. Profiles Policies (Non-recursive using SECURITY DEFINER helpers)
--- Users can view their own profile; admins can view any profile.
-CREATE POLICY "Profiles SELECT Policy" ON public.profiles
-    FOR SELECT USING ((id = auth.uid()) OR public.is_admin());
+-- Authenticated users can view their own profile; admins can view any profile.
+CREATE POLICY "Profiles Self SELECT Policy" ON public.profiles
+    FOR SELECT TO authenticated USING (auth.uid() = id);
+
+CREATE POLICY "Profiles Admin SELECT Policy" ON public.profiles
+    FOR SELECT TO authenticated USING (public.is_admin());
 
 -- Users can update safe fields of their own profile; role and is_active MUST NOT change via generic UPDATE.
 CREATE POLICY "Profiles User UPDATE Policy" ON public.profiles
