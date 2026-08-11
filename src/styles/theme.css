@@ -41,17 +41,18 @@ a:hover {
 }
 
 .card-parchment:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-warm-md);
-  border-color: var(--color-burgundy);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-warm-md), var(--shadow-gold-glow);
+  border-color: var(--color-gold-muted);
 }
 
 /* Burgundy Surface Card */
 .card-burgundy {
-  background: var(--color-burgundy);
+  background: var(--gradient-burgundy);
   color: var(--color-ivory);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-burgundy);
+  border: var(--border-gold-subtle);
 }
 
 .card-burgundy h1, .card-burgundy h2, .card-burgundy h3, .card-burgundy h4, .card-burgundy h5 {
@@ -64,9 +65,9 @@ a:hover {
   border-top-right-radius: 140px;
   border-bottom-left-radius: var(--radius-md);
   border-bottom-right-radius: var(--radius-md);
-  border: var(--border-burgundy-strong);
+  border: var(--border-gold-strong);
   overflow: hidden;
-  box-shadow: var(--shadow-warm-md);
+  box-shadow: var(--shadow-burgundy), var(--shadow-gold-glow);
   position: relative;
   background: var(--color-parchment-dark);
 }
@@ -97,7 +98,7 @@ a:hover {
   background-color: var(--color-parchment);
   color: var(--color-burgundy) !important;
   font-weight: 700;
-  border: var(--border-burgundy-strong);
+  border: var(--border-gold-strong);
   border-radius: var(--radius-pill);
   padding: 10px 24px;
   display: inline-flex;
@@ -156,6 +157,61 @@ a:hover {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-burgundy);
+}
+
+/* Interactive 3D Card Hover Effects */
+.interactive-3d:hover .church-3d-badge {
+  transform: translateY(-4px) rotate(1.5deg) scale(1.04);
+  box-shadow: 0 12px 28px rgba(74, 16, 16, 0.4), 0 0 24px rgba(196, 154, 82, 0.4) !important;
+}
+
+/* Coptic Book Leather Placeholder */
+.coptic-book-placeholder {
+  background: linear-gradient(135deg, #5A1715 0%, #4A1010 60%, #350B0B 100%);
+  border: 2px solid var(--color-gold-muted);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6), 0 6px 18px rgba(74, 16, 16, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.coptic-book-placeholder::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 14px;
+  height: 100%;
+  background: linear-gradient(to right, rgba(212, 175, 55, 0.4), rgba(0,0,0,0.4));
+  border-left: 1px solid rgba(176, 141, 87, 0.5);
+}
+
+/* Incense Keyframes */
+@keyframes incensePulse {
+  0% {
+    opacity: 0.3;
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    opacity: 0.65;
+    transform: translateY(-15px) scale(1.05);
+  }
+  100% {
+    opacity: 0.3;
+    transform: translateY(-30px) scale(1.1);
+  }
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .incense-glow {
+    display: none !important;
+  }
 }
 
 /* ==========================================================================

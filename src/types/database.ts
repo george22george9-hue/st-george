@@ -24,6 +24,7 @@ export type Section = {
   slug: string;
   description: string | null;
   image_url: string | null;
+  cover_storage_path?: string | null;
   is_active: boolean;
   display_order: number;
   created_at: string;
@@ -37,6 +38,7 @@ export type Category = {
   slug: string;
   description: string | null;
   image_url: string | null;
+  cover_storage_path?: string | null;
   is_active: boolean;
   display_order: number;
   created_at: string;
@@ -58,6 +60,8 @@ export type Book = {
   file_size: number | null;
   file_type: string | null;
   is_published: boolean;
+  allow_reading?: boolean;
+  allow_download?: boolean;
   published_at: string | null;
   created_by: string | null;
   created_at: string;
@@ -80,6 +84,41 @@ export type Media = {
   is_published: boolean;
   created_at: string;
   updated_at: string;
+};
+
+export type ContentType = 'article' | 'poster' | 'gallery' | 'video' | 'document' | 'link';
+
+export type ContentItem = {
+  id: string;
+  section_id: string | null;
+  category_id: string | null;
+  title: string;
+  slug: string | null;
+  subtitle: string | null;
+  description: string | null;
+  content_type: ContentType;
+  cover_image_url: string | null;
+  cover_storage_path: string | null;
+  file_url: string | null;
+  file_storage_path: string | null;
+  external_url: string | null;
+  is_published: boolean;
+  display_order: number;
+  allow_reading: boolean;
+  allow_download: boolean;
+  created_by: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ContentMedia = {
+  id: string;
+  content_id: string;
+  storage_path: string;
+  public_url: string;
+  caption: string | null;
+  display_order: number;
+  created_at: string;
 };
 
 export type Database = {
@@ -115,6 +154,7 @@ export type Database = {
           slug: string;
           description?: string | null;
           image_url?: string | null;
+          cover_storage_path?: string | null;
           is_active?: boolean;
           display_order?: number;
           created_at?: string;
@@ -126,6 +166,7 @@ export type Database = {
           slug?: string;
           description?: string | null;
           image_url?: string | null;
+          cover_storage_path?: string | null;
           is_active?: boolean;
           display_order?: number;
           created_at?: string;
@@ -142,6 +183,7 @@ export type Database = {
           slug: string;
           description?: string | null;
           image_url?: string | null;
+          cover_storage_path?: string | null;
           is_active?: boolean;
           display_order?: number;
           created_at?: string;
@@ -154,6 +196,7 @@ export type Database = {
           slug?: string;
           description?: string | null;
           image_url?: string | null;
+          cover_storage_path?: string | null;
           is_active?: boolean;
           display_order?: number;
           created_at?: string;
@@ -178,6 +221,8 @@ export type Database = {
           file_size?: number | null;
           file_type?: string | null;
           is_published?: boolean;
+          allow_reading?: boolean;
+          allow_download?: boolean;
           published_at?: string | null;
           created_by?: string | null;
           created_at?: string;
@@ -198,6 +243,8 @@ export type Database = {
           file_size?: number | null;
           file_type?: string | null;
           is_published?: boolean;
+          allow_reading?: boolean;
+          allow_download?: boolean;
           published_at?: string | null;
           created_by?: string | null;
           created_at?: string;
@@ -240,6 +287,76 @@ export type Database = {
           is_published?: boolean;
           created_at?: string;
           updated_at?: string;
+        };
+        Relationships: any[];
+      };
+      content_items: {
+        Row: ContentItem;
+        Insert: {
+          id?: string;
+          section_id?: string | null;
+          category_id?: string | null;
+          title: string;
+          slug?: string | null;
+          subtitle?: string | null;
+          description?: string | null;
+          content_type?: ContentType;
+          cover_image_url?: string | null;
+          cover_storage_path?: string | null;
+          file_url?: string | null;
+          file_storage_path?: string | null;
+          external_url?: string | null;
+          is_published?: boolean;
+          display_order?: number;
+          allow_reading?: boolean;
+          allow_download?: boolean;
+          created_by?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          section_id?: string | null;
+          category_id?: string | null;
+          title?: string;
+          slug?: string | null;
+          subtitle?: string | null;
+          description?: string | null;
+          content_type?: ContentType;
+          cover_image_url?: string | null;
+          cover_storage_path?: string | null;
+          file_url?: string | null;
+          file_storage_path?: string | null;
+          external_url?: string | null;
+          is_published?: boolean;
+          display_order?: number;
+          allow_reading?: boolean;
+          allow_download?: boolean;
+          created_by?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: any[];
+      };
+      content_media: {
+        Row: ContentMedia;
+        Insert: {
+          id?: string;
+          content_id: string;
+          storage_path: string;
+          public_url: string;
+          caption?: string | null;
+          display_order?: number;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          content_id?: string;
+          storage_path?: string;
+          public_url?: string;
+          caption?: string | null;
+          display_order?: number;
+          created_at?: string;
         };
         Relationships: any[];
       };

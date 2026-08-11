@@ -15,6 +15,8 @@ export const createBookSchema = z.object({
   category_id: z.string().uuid('Invalid category ID format').optional().nullable(),
   section_id: z.string().uuid('Invalid section ID format').optional().nullable(),
   is_published: z.boolean().default(false),
+  allow_reading: z.boolean().default(true),
+  allow_download: z.boolean().default(true),
 });
 
 export const updateBookSchema = createBookSchema.partial();

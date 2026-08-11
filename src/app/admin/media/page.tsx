@@ -255,7 +255,18 @@ export default function AdminMediaPage() {
                         </span>
                       </div>
 
-                      <div className="mt-2 pt-2 border-top text-end">
+                      <div className="mt-2 pt-2 border-top text-end d-flex justify-content-between align-items-center">
+                        <button
+                          className="btn btn-sm btn-outline-secondary"
+                          onClick={() => {
+                            if (item.public_url) {
+                              navigator.clipboard.writeText(item.public_url);
+                              setSuccessMessage('تم نسخ رابط الملف إلى الحافظة.');
+                            }
+                          }}
+                        >
+                          <i className="fas fa-copy me-1" /> نسخ الرابط
+                        </button>
                         <button className="btn btn-sm btn-outline-danger" onClick={() => setDeleteConfirmId(item.id)}>
                           <i className="fas fa-trash me-1" /> حذف
                         </button>

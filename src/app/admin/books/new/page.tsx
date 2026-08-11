@@ -13,6 +13,8 @@ export default function AddBookPage() {
   const [categoryId, setCategoryId] = useState('');
   const [sectionId, setSectionId] = useState('');
   const [isPublished, setIsPublished] = useState(true);
+  const [allowReading, setAllowReading] = useState(true);
+  const [allowDownload, setAllowDownload] = useState(true);
 
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [coverFile, setCoverFile] = useState<File | null>(null);
@@ -95,6 +97,8 @@ export default function AddBookPage() {
         file_size: pdfSize,
         file_type: pdfFile ? 'application/pdf' : null,
         is_published: isPublished,
+        allow_reading: allowReading,
+        allow_download: allowDownload,
         published_at: isPublished ? new Date().toISOString() : null,
       });
 
@@ -222,8 +226,8 @@ export default function AddBookPage() {
               />
             </div>
 
-            <div className="col-md-12">
-              <div className="form-check">
+            <div className="col-md-4">
+              <div className="form-check form-switch">
                 <input
                   type="checkbox"
                   className="form-check-input"
@@ -231,8 +235,38 @@ export default function AddBookPage() {
                   checked={isPublished}
                   onChange={(e) => setIsPublished(e.target.checked)}
                 />
-                <label className="form-check-label small" htmlFor="publishCheck">
-                  نشر الكتاب مباشرة للمستخدمين
+                <label className="form-check-label small fw-bold" htmlFor="publishCheck">
+                  نشر الكتاب مباشرة
+                </label>
+              </div>
+            </div>
+
+            <div className="col-md-4">
+              <div className="form-check form-switch">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  id="readCheck"
+                  checked={allowReading}
+                  onChange={(e) => setAllowReading(e.target.checked)}
+                />
+                <label className="form-check-label small fw-bold" htmlFor="readCheck">
+                  سماح بالقراءة أونلاين
+                </label>
+              </div>
+            </div>
+
+            <div className="col-md-4">
+              <div className="form-check form-switch">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  id="downloadCheck"
+                  checked={allowDownload}
+                  onChange={(e) => setAllowDownload(e.target.checked)}
+                />
+                <label className="form-check-label small fw-bold" htmlFor="downloadCheck">
+                  سماح بتحميل الملف (PDF)
                 </label>
               </div>
             </div>

@@ -19,6 +19,8 @@ export default function EditBookPage({ params }: EditBookPageProps) {
   const [categoryId, setCategoryId] = useState('');
   const [sectionId, setSectionId] = useState('');
   const [isPublished, setIsPublished] = useState(false);
+  const [allowReading, setAllowReading] = useState(true);
+  const [allowDownload, setAllowDownload] = useState(true);
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [sections, setSections] = useState<Section[]>([]);
@@ -49,6 +51,8 @@ export default function EditBookPage({ params }: EditBookPageProps) {
         setCategoryId(typedBook.category_id || '');
         setSectionId(typedBook.section_id || '');
         setIsPublished(typedBook.is_published);
+        setAllowReading(typedBook.allow_reading !== false);
+        setAllowDownload(typedBook.allow_download !== false);
 
         setCategories((cats as Category[]) || []);
         setSections((secs as Section[]) || []);
@@ -78,6 +82,8 @@ export default function EditBookPage({ params }: EditBookPageProps) {
           category_id: categoryId || null,
           section_id: sectionId || null,
           is_published: isPublished,
+          allow_reading: allowReading,
+          allow_download: allowDownload,
           published_at: isPublished ? new Date().toISOString() : null,
         })
         .eq('id', id);
@@ -190,8 +196,8 @@ export default function EditBookPage({ params }: EditBookPageProps) {
               />
             </div>
 
-            <div className="col-md-12">
-              <div className="form-check">
+            <div className="col-md-4">
+              <div className="form-check form-switch">
                 <input
                   type="checkbox"
                   className="form-check-input"
@@ -199,8 +205,38 @@ export default function EditBookPage({ params }: EditBookPageProps) {
                   checked={isPublished}
                   onChange={(e) => setIsPublished(e.target.checked)}
                 />
-                <label className="form-check-label small" htmlFor="editPublishCheck">
+                <label className="form-check-label small fw-bold" htmlFor="editPublishCheck">
                   منشور للمستخدمين على المنصة
+                </label>
+              </div>
+            </div>
+
+            <div className="col-md-4">
+              <div className="form-check form-switch">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  id="editReadCheck"
+                  checked={allowReading}
+                  onChange={(e) => setAllowReading(e.target.checked)}
+                />
+                <label className="form-check-label small fw-bold" htmlFor="editReadCheck">
+                  سماح بالقراءة أونلاين
+                </label>
+              </div>
+            </div>
+
+            <div className="col-md-4">
+              <div className="form-check form-switch">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  id="editDownloadCheck"
+                  checked={allowDownload}
+                  onChange={(e) => setAllowDownload(e.target.checked)}
+                />
+                <label className="form-check-label small fw-bold" htmlFor="editDownloadCheck">
+                  سماح بتحميل الملف (PDF)
                 </label>
               </div>
             </div>

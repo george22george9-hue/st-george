@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import HeroSection from '@/components/home/HeroSection';
 import FathersSection from '@/components/home/FathersSection';
 import ServicesGrid, { DynamicSectionGroup } from '@/components/services/ServicesGrid';
@@ -67,9 +68,9 @@ export default async function HomePage() {
               </h2>
               <p className="text-muted mb-0">كتب وقراءات روحية وطقسية متاحة للقراءة والاطلاع</p>
             </div>
-            <a href="/books" className="btn-parchment">
+            <Link href="/books" className="btn-parchment">
               عرض كل الكتب <i className="fas fa-arrow-left me-1" />
-            </a>
+            </Link>
           </div>
 
           {publishedBooks.length === 0 ? (
