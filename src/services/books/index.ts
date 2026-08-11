@@ -16,24 +16,28 @@ import {
 import { Book } from '@/types/database';
 
 export async function getAllBooks(includeUnpublished = true, categoryId?: string, sectionId?: string): Promise<Book[]> {
-  const supabase = await createClient();
-  let query = supabase
-    .from('books')
-    .select('*')
-    .order('created_at', { ascending: false });
+  try {
+    const supabase = await createClient();
+    let query = supabase
+      .from('books')
+      .select('*')
+      .order('created_at', { ascending: false });
 
-  if (!includeUnpublished) {
-    query = query.eq('is_published', true);
+    if (!includeUnpublished) {
+      query = query.eq('is_published', true);
+    }
+
+    if (categoryId) query = query.eq('category_id', categoryId);
+    if (sectionId) query = query.eq('section_id', sectionId);
+
+    const { data, error } = await query;
+    if (!error && data) {
+      return data as Book[];
+    }
+  } catch {
+    // Fail-safe
   }
-
-  if (categoryId) query = query.eq('category_id', categoryId);
-  if (sectionId) query = query.eq('section_id', sectionId);
-
-  const { data, error } = await query;
-  if (error) {
-    throw new Error(`Failed to fetch books: ${error.message}`);
-  }
-  return (data as Book[]) || [];
+  return [];
 }
 
 export async function getPublishedBooks(categoryId?: string, sectionId?: string): Promise<Book[]> {

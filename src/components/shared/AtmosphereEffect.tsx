@@ -11,6 +11,8 @@ export default function AtmosphereEffect({
   density = 'medium',
   className = '',
 }: AtmosphereEffectProps) {
+  const particleCount = density === 'low' ? 6 : 12;
+
   return (
     <div
       className={`atmosphere-overlay ${className}`}
@@ -31,7 +33,7 @@ export default function AtmosphereEffect({
           right: '10%',
           width: '50vw',
           height: '140%',
-          background: 'radial-gradient(ellipse at top right, rgba(196, 154, 82, 0.12) 0%, rgba(242, 231, 213, 0.04) 45%, transparent 75%)',
+          background: 'radial-gradient(ellipse at top right, rgba(196, 154, 82, 0.15) 0%, rgba(242, 231, 213, 0.05) 45%, transparent 75%)',
           transform: 'rotate(-15deg)',
           filter: 'blur(30px)',
         }}
@@ -51,6 +53,49 @@ export default function AtmosphereEffect({
           animation: 'incensePulse 8s ease-in-out infinite alternate',
         }}
       />
+
+      {/* Floating Sunlight Dust Particles */}
+      <div className="particles-container position-absolute inset-0">
+        {Array.from({ length: particleCount }).map((_, i) => {
+          const size = 2 + (i % 3);
+          const left = 15 + (i * 7) % 70;
+          const top = 10 + (i * 11) % 80;
+          const duration = 12 + (i % 5) * 3;
+          const delay = (i % 4) * 2;
+
+          return (
+            <div
+              key={i}
+              className="position-absolute rounded-circle"
+              style={{
+                width: `${size}px`,
+                height: `${size}px`,
+                backgroundColor: 'rgba(212, 175, 55, 0.45)',
+                boxShadow: '0 0 6px rgba(212, 175, 55, 0.6)',
+                left: `${left}%`,
+                top: `${top}%`,
+                animation: `floatDust ${duration}s ease-in-out ${delay}s infinite alternate`,
+              }}
+            />
+          );
+        })}
+      </div>
+
+      <style jsx>{`
+        @keyframes floatDust {
+          0% {
+            transform: translateY(0px) translateX(0px) scale(0.8);
+            opacity: 0.2;
+          }
+          50% {
+            opacity: 0.65;
+          }
+          100% {
+            transform: translateY(-25px) translateX(12px) scale(1.1);
+            opacity: 0.2;
+          }
+        }
+      `}</style>
     </div>
   );
 }
