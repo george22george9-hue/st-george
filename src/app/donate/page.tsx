@@ -49,7 +49,7 @@ export default function DonatePage() {
                   <div className="card-burgundy p-4 text-center h-100">
                     <i className="fas fa-mobile-alt fs-1 text-gold-light mb-3" />
                     <h4 className="fs-5 text-parchment fw-bold mb-2">فودافون كاش (Vodafone Cash)</h4>
-                    <span className="fs-4 font-monospace fw-bold text-white d-block mb-2">01234567890</span>
+                    <span className="fs-4 font-monospace fw-bold text-white d-block mb-2">00000000</span>
                     <span className="small text-white-50">متاح لاستقبال التبرعات ودعم إخوة الرب على مدار اليوم</span>
                   </div>
                 </ScrollReveal>
