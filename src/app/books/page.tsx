@@ -4,6 +4,8 @@ import CopticPattern from '@/components/ornaments/CopticPattern';
 import { getPublishedBooks } from '@/services/books';
 import { Book } from '@/types/database';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'المكتبة الكنسية الرقمية | كنيسة الشهيد العظيم مارجرجس بسندبيس',
 };
@@ -16,35 +18,6 @@ export default async function BooksPage() {
     dbBooks = [];
   }
 
-  const fallbackBooks = [
-    {
-      id: '1',
-      title: 'حياة الصلاة والتأمل',
-      author: 'الأنبا مرقس',
-      category: 'روحانيات',
-      description: 'كتاب في أساسيات الصلاة والتأمل اليومي في الكلمة المقدسة.',
-      cover_image_url: '/images/church.jpg',
-    },
-    {
-      id: '2',
-      title: 'سيرة الشهيد مارجرجس',
-      author: 'آباء الكنيسة',
-      category: 'سنكسار وسير',
-      description: 'سيرة أمير الشهداء العظيم مارجرجس الروماني وتاريخ جهاده.',
-      cover_image_url: '/images/st-george.jpg',
-    },
-    {
-      id: '3',
-      title: 'طقس القداس الإلهي',
-      author: 'اللجنة الطقسية',
-      category: 'طقس كنسي',
-      description: 'شرح مبسط لطقوس وألحان ورموز القداس الإلهي في الكنيسة القبطية.',
-      cover_image_url: '/images/anba-morcos.jpg',
-    },
-  ];
-
-  const displayBooks = dbBooks.length > 0 ? dbBooks : fallbackBooks;
-
   return (
     <section className="pt-5 mt-5 pb-5 position-relative" style={{ backgroundColor: 'var(--color-ivory)' }}>
       <CopticPattern opacity={0.03} />
@@ -56,19 +29,29 @@ export default async function BooksPage() {
           <CopticDivider className="my-3" />
         </div>
 
-        <div className="row g-4">
-          {displayBooks.map((book) => (
-            <div className="col-lg-4 col-md-6" key={book.id}>
-              <BookCard
-                id={book.id}
-                title={book.title}
-                author={book.author}
-                coverUrl={book.cover_image_url}
-                description={book.description}
-              />
-            </div>
-          ))}
-        </div>
+        {dbBooks.length === 0 ? (
+          <div className="card-parchment p-5 text-center my-5 mx-auto" style={{ maxWidth: '650px' }}>
+            <i className="fas fa-book-open fs-1 mb-3" style={{ color: 'var(--color-burgundy)' }} />
+            <h4 className="fs-4 mb-2" style={{ color: 'var(--color-burgundy)' }}>
+              لا توجد كتب متاحة في هذا القسم حالياً
+            </h4>
+            <p className="text-muted mb-0">جاري إعداد ورفع الكتب والمؤلفات الكنسية بواسطة خادمي المكتبة الرقمية.</p>
+          </div>
+        ) : (
+          <div className="row g-4">
+            {dbBooks.map((book) => (
+              <div className="col-lg-4 col-md-6" key={book.id}>
+                <BookCard
+                  id={book.id}
+                  title={book.title}
+                  author={book.author}
+                  coverUrl={book.cover_image_url}
+                  description={book.description}
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

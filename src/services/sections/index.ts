@@ -24,6 +24,21 @@ export async function getSections(includeInactive = false): Promise<Section[]> {
   return (data as Section[]) || [];
 }
 
+export async function getSectionById(id: string): Promise<Section | null> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('sections')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (error) {
+    if (error.code === 'PGRST116') return null;
+    throw new Error(`Failed to fetch section by id: ${error.message}`);
+  }
+  return data as Section;
+}
+
 export async function getSectionBySlug(slug: string): Promise<Section | null> {
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -33,7 +48,7 @@ export async function getSectionBySlug(slug: string): Promise<Section | null> {
     .single();
 
   if (error) {
-    if (error.code === 'PGRST116') return null; // Not found
+    if (error.code === 'PGRST116') return null;
     throw new Error(`Failed to fetch section by slug: ${error.message}`);
   }
   return data as Section;

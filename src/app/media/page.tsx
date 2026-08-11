@@ -4,6 +4,8 @@ import CopticPattern from '@/components/ornaments/CopticPattern';
 import { getMediaItems } from '@/services/media';
 import { Media } from '@/types/database';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'معرض الوسائط | كنيسة الشهيد العظيم مارجرجس بسندبيس',
 };
@@ -16,32 +18,6 @@ export default async function MediaPage() {
     dbMedia = [];
   }
 
-  const fallbackMedia = [
-    {
-      id: '1',
-      title: 'نهضة عيد الشهيد مارجرجس',
-      description: 'صور وتغطية قداسات ونهضة عيد مارجرجس بسندبيس.',
-      public_url: '/images/st-george.jpg',
-      mime_type: 'image/jpeg',
-    },
-    {
-      id: '2',
-      title: 'زيارة نيافة الأنبا مرقس للكنيسة',
-      description: 'التغطية المصورة لصلوات القداس والزيارة الرعوية.',
-      public_url: '/images/anba-morcos.jpg',
-      mime_type: 'image/jpeg',
-    },
-    {
-      id: '3',
-      title: 'مبنى الكنيسة والصلوات',
-      description: 'مشاهد وصور من قداسات وصلاة العشية.',
-      public_url: '/images/church.jpg',
-      mime_type: 'image/jpeg',
-    },
-  ];
-
-  const displayMedia = dbMedia.length > 0 ? dbMedia : fallbackMedia;
-
   return (
     <section className="pt-5 mt-5 pb-5 position-relative" style={{ backgroundColor: 'var(--color-ivory)' }}>
       <CopticPattern opacity={0.03} />
@@ -53,18 +29,28 @@ export default async function MediaPage() {
           <CopticDivider className="my-3" />
         </div>
 
-        <div className="row g-4">
-          {displayMedia.map((item) => (
-            <div className="col-lg-4 col-md-6" key={item.id}>
-              <MediaCard
-                title={item.title}
-                description={item.description}
-                publicUrl={item.public_url}
-                mimeType={item.mime_type}
-              />
-            </div>
-          ))}
-        </div>
+        {dbMedia.length === 0 ? (
+          <div className="card-parchment p-5 text-center my-5 mx-auto" style={{ maxWidth: '650px' }}>
+            <i className="fas fa-photo-video fs-1 mb-3" style={{ color: 'var(--color-burgundy)' }} />
+            <h4 className="fs-4 mb-2" style={{ color: 'var(--color-burgundy)' }}>
+              لا توجد وسائط منشورة حالياً
+            </h4>
+            <p className="text-muted mb-0">جاري إعداد والتغطية المصورة والنهضات الروحية وإضافتها إلى المعرض.</p>
+          </div>
+        ) : (
+          <div className="row g-4">
+            {dbMedia.map((item) => (
+              <div className="col-lg-4 col-md-6" key={item.id}>
+                <MediaCard
+                  title={item.title}
+                  description={item.description}
+                  publicUrl={item.public_url}
+                  mimeType={item.mime_type}
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
