@@ -1,0 +1,48 @@
+/* ==========================================================================
+   Coptic Orthodox Church Platform - Design Tokens
+   ========================================================================== */
+
+:root {
+  /* Dominant Colors */
+  --color-burgundy: #6F1D1B;         /* Deep Orthodox Burgundy */
+  --color-burgundy-dark: #5A1715;    /* Dark Church Red */
+  --color-burgundy-light: #7A2422;   /* Muted Church Red */
+  
+  --color-parchment: #F2E7D5;        /* Warm Parchment */
+  --color-parchment-dark: #E8D9C4;   /* Deep Parchment / Beige */
+  --color-parchment-muted: #D8C3A5;  /* Subtle Beige Border */
+  
+  --color-ivory: #FAF6EF;            /* Warm Ivory Background */
+  --color-cream: #F5EFE5;            /* Secondary Cream Background */
+  
+  --color-text-dark: #2A211C;        /* Very Dark Warm Brown / Charcoal */
+  --color-text-muted: #5C4F46;       /* Warm Muted Brown Text */
+  
+  --color-gold-muted: #B08D57;       /* Muted Antique Gold (Used Sparingly) */
+  --color-gold-light: #D4AF37;       /* Soft Gold Accent */
+
+  /* Borders & Shadows */
+  --border-burgundy-subtle: 1px solid rgba(111, 29, 27, 0.15);
+  --border-burgundy-strong: 1px solid rgba(111, 29, 27, 0.4);
+  --border-parchment: 1px solid rgba(216, 195, 165, 0.6);
+  --border-gold-subtle: 1px solid rgba(176, 141, 87, 0.3);
+
+  --shadow-warm-sm: 0 2px 8px rgba(42, 33, 28, 0.04);
+  --shadow-warm-md: 0 8px 24px rgba(42, 33, 28, 0.08);
+  --shadow-warm-lg: 0 16px 40px rgba(42, 33, 28, 0.12);
+  --shadow-burgundy: 0 10px 30px rgba(90, 23, 21, 0.2);
+
+  /* Typography */
+  --font-primary: var(--font-cairo), 'Cairo', sans-serif;
+  --font-heading: var(--font-amiri), 'Amiri', serif;
+
+  /* Spacing & Radii */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 9999px;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease-in-out;
+  --transition-normal: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}

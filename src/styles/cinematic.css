@@ -1,0 +1,140 @@
+/* ==========================================================================
+   Cinematic & 3D Effects
+   ========================================================================== */
+
+body {
+    background-color: var(--color-primary-dark);
+    color: var(--color-light);
+    font-family: var(--font-primary);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--color-accent);
+}
+
+/* 3D Background Canvas */
+#webgl-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -2;
+    pointer-events: none;
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+    background: var(--gradient-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: var(--border-glass);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-glass);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Cinematic Gold Text */
+.text-gold-3d {
+    background: var(--gradient-gold);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.5));
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+    display: inline-block;
+}
+
+/* 3D Hover Cards */
+.card-3d-wrapper {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+}
+
+.card-3d {
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+    transform-style: preserve-3d;
+    background: rgba(11, 19, 43, 0.6);
+    border: var(--border-gold-thin);
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    position: relative;
+}
+
+.card-3d:hover {
+    transform: translateY(-10px) rotateX(5deg) rotateY(-5deg);
+    box-shadow: var(--glow-gold);
+    border-color: rgba(212, 175, 55, 0.8);
+}
+
+.card-3d-content {
+    transform: translateZ(30px);
+}
+
+/* Golden Button 3D */
+.btn-gold-3d {
+    background: var(--gradient-gold);
+    color: var(--color-primary-dark) !important;
+    font-weight: 800;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 32px;
+    box-shadow: var(--glow-gold);
+    transition: all var(--transition-fast);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.btn-gold-3d:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: var(--glow-gold-intense);
+    color: var(--color-primary-dark);
+}
+
+/* Coptic Pattern Overlay */
+.coptic-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0L40 20L20 40L0 20L20 0ZM20 4L7 17L13 23L26 10L20 4Z" fill="rgba(212,175,55,0.03)"/></svg>');
+    opacity: 0.4;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Page View Container */
+#app-router-view {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Soft Light Rays Overlay */
+.light-rays {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 180deg at 50% 50%, rgba(212,175,55,0) 0deg, rgba(212,175,55,0.05) 15deg, rgba(212,175,55,0) 30deg);
+    animation: rotate 60s linear infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes rotate {
+    100% { transform: rotate(360deg); }
+}
