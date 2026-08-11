@@ -9,6 +9,21 @@ import {
 } from '@/lib/validation/categories';
 import { Category } from '@/types/database';
 
+export async function getAllCategories(includeInactive = true): Promise<Category[]> {
+  const supabase = await createClient();
+  let query = supabase.from('categories').select('*').order('display_order', { ascending: true });
+
+  if (!includeInactive) {
+    query = query.eq('is_active', true);
+  }
+
+  const { data, error } = await query;
+  if (error) {
+    throw new Error(`Failed to fetch all categories: ${error.message}`);
+  }
+  return (data as Category[]) || [];
+}
+
 export async function getCategoriesBySection(sectionId: string, includeInactive = false): Promise<Category[]> {
   const supabase = await createClient();
   let query = supabase

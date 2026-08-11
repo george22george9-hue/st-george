@@ -15,13 +15,16 @@ import {
 } from '@/lib/storage/books';
 import { Book } from '@/types/database';
 
-export async function getPublishedBooks(categoryId?: string, sectionId?: string): Promise<Book[]> {
+export async function getAllBooks(includeUnpublished = true, categoryId?: string, sectionId?: string): Promise<Book[]> {
   const supabase = await createClient();
   let query = supabase
     .from('books')
     .select('*')
-    .eq('is_published', true)
     .order('created_at', { ascending: false });
+
+  if (!includeUnpublished) {
+    query = query.eq('is_published', true);
+  }
 
   if (categoryId) query = query.eq('category_id', categoryId);
   if (sectionId) query = query.eq('section_id', sectionId);
@@ -31,6 +34,25 @@ export async function getPublishedBooks(categoryId?: string, sectionId?: string)
     throw new Error(`Failed to fetch books: ${error.message}`);
   }
   return (data as Book[]) || [];
+}
+
+export async function getPublishedBooks(categoryId?: string, sectionId?: string): Promise<Book[]> {
+  return getAllBooks(false, categoryId, sectionId);
+}
+
+export async function getBookById(id: string): Promise<Book | null> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('books')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (error) {
+    if (error.code === 'PGRST116') return null;
+    throw new Error(`Failed to fetch book by id: ${error.message}`);
+  }
+  return data as Book;
 }
 
 export async function getBookBySlug(slug: string): Promise<Book | null> {
@@ -190,14 +212,6 @@ export async function setBookPublishStatus(id: string, isPublished: boolean): Pr
   return data as Book;
 }
 
-/**
- * Safe Deletion Strategy for Books:
- * 1. Verify admin authorization
- * 2. Fetch book record to locate storage objects
- * 3. Delete storage objects (PDF and Cover)
- * 4. Delete database record
- * 5. Handle partial failures explicitly without losing track of errors.
- */
 export async function deleteBookSafely(id: string): Promise<{ success: boolean; warnings: string[] }> {
   await requireAdmin();
   const supabase = await createClient();
@@ -214,13 +228,11 @@ export async function deleteBookSafely(id: string): Promise<{ success: boolean; 
 
   const warnings: string[] = [];
 
-  // Step 1: Delete storage objects
   const storageResult = await deleteBookStorageObjects(book.file_storage_path, book.cover_storage_path);
   if (storageResult.errors.length > 0) {
     warnings.push(...storageResult.errors);
   }
 
-  // Step 2: Delete DB record
   const { error: dbDeleteError } = await supabase.from('books').delete().eq('id', id);
   if (dbDeleteError) {
     throw new Error(

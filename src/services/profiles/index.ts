@@ -1,6 +1,6 @@
 import 'server-only';
 import { createClient } from '@/lib/supabase/server';
-import { requireSuperAdmin, requireUser } from '@/lib/auth/permissions';
+import { requireAdmin, requireSuperAdmin, requireUser } from '@/lib/auth/permissions';
 import { AppRole, Profile } from '@/types/database';
 
 export async function getUserProfile(userId?: string): Promise<Profile | null> {
@@ -19,6 +19,20 @@ export async function getUserProfile(userId?: string): Promise<Profile | null> {
     throw new Error(`Failed to fetch user profile: ${error.message}`);
   }
   return data as Profile;
+}
+
+export async function getAllProfiles(): Promise<Profile[]> {
+  await requireAdmin();
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    throw new Error(`Failed to fetch profiles: ${error.message}`);
+  }
+  return (data as Profile[]) || [];
 }
 
 /**
