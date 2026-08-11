@@ -2,11 +2,12 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
 import { Database } from '@/types/database';
+import { getSanitizedSupabaseUrl } from './config';
 
 export async function createClient(): Promise<SupabaseClient<Database>> {
   const cookieStore = await cookies();
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseUrl = getSanitizedSupabaseUrl();
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!supabaseUrl || !supabaseAnonKey) {

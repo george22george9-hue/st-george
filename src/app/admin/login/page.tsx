@@ -30,21 +30,57 @@ function AdminLoginForm() {
       });
 
       if (error) {
-        setErrorMessage('البريد الإلكتروني أو كلمة المرور غير صحيحة.');
+        console.error('[Admin Login Auth Error]:', {
+          message: error.message,
+          status: error.status,
+          code: error.code,
+        });
+
+        if (error.message.toLowerCase().includes('invalid login credentials')) {
+          setErrorMessage('البريد الإلكتروني أو كلمة المرور غير صحيحة.');
+        } else {
+          setErrorMessage(`فشلت المصادقة: ${error.message}`);
+        }
         setLoading(false);
         return;
       }
 
       if (data.user) {
-        const { data: profile } = await supabase
+        const { data: profile, error: profileErr } = await supabase
           .from('profiles')
           .select('role, is_active')
           .eq('id', data.user.id)
           .single();
 
-        if (!profile || !profile.is_active || (profile.role !== 'admin' && profile.role !== 'super_admin')) {
+        if (profileErr) {
+          console.error('[Admin Login Profile Query Error]:', {
+            message: profileErr.message,
+            code: profileErr.code,
+            details: profileErr.details,
+          });
           await supabase.auth.signOut();
-          setErrorMessage('عذراً، هذا الحساب لا يملك صلاحيات الإدارة المطلوب الوصول إليها.');
+          setErrorMessage(`فشل التحقق من صلاحيات الملف الشخصي: ${profileErr.message}`);
+          setLoading(false);
+          return;
+        }
+
+        if (!profile) {
+          await supabase.auth.signOut();
+          setErrorMessage('لم يتم العثور على ملف تعريف (Profile) مرتبط بهذا الحساب.');
+          setLoading(false);
+          return;
+        }
+
+        if (!profile.is_active) {
+          await supabase.auth.signOut();
+          setErrorMessage('حسابك غير نشط حالياً. يرجى التواصل مع مسؤول النظام.');
+          setLoading(false);
+          return;
+        }
+
+        if (profile.role !== 'admin' && profile.role !== 'super_admin') {
+          await supabase.auth.signOut();
+          setErrorMessage('عذراً، هذا الحساب لا يملك صلاحيات الإدارة المطلوبة للوصول.');
           setLoading(false);
           return;
         }
@@ -52,8 +88,9 @@ function AdminLoginForm() {
         router.push('/admin');
         router.refresh();
       }
-    } catch {
-      setErrorMessage('حدث خطأ أثناء محاولة تسجيل الدخول. يرجى المحاولة لاحقاً.');
+    } catch (err: any) {
+      console.error('[Admin Login Unexpected Error]:', err?.message || err);
+      setErrorMessage('حدث خطأ غير متوقع أثناء محاولة تسجيل الدخول. يرجى المحاولة لاحقاً.');
       setLoading(false);
     }
   };
