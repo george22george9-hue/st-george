@@ -3,7 +3,7 @@ import { Profile } from '@/types/database';
 import AdminUsersClient from './AdminUsersClient';
 
 export const metadata = {
-  title: 'إدارة المستخدمين والصلاحيات | لوحة الإدارة',
+  title: 'المستخدمون والصلاحيات | لوحة الإدارة',
 };
 
 export default async function AdminUsersPage() {
@@ -15,11 +15,14 @@ export default async function AdminUsersPage() {
   }
 
   return (
-    <div className="container-fluid">
-      <div className="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
-        <h2 className="fs-3 fw-bold mb-0" style={{ color: 'var(--color-burgundy)' }}>
-          إدارة المستخدمين وحسابات الإدارة
-        </h2>
+    <div className="container-fluid p-0">
+      <div className="mb-4">
+        <h1 className="fs-3 fw-bold mb-1" style={{ color: 'var(--color-burgundy)', fontFamily: 'var(--font-heading)' }}>
+          المستخدمون والصلاحيات
+        </h1>
+        <p className="text-muted fs-6 mb-0">
+          إدارة حسابات المستخدمين والأدوار والصلاحيات
+        </p>
       </div>
 
       <AdminUsersClient initialProfiles={profiles} />

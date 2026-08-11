@@ -125,7 +125,7 @@ export default function AdminCategoriesPage() {
   };
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid p-0">
       <div className="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
         <h2 className="fs-3 fw-bold mb-0" style={{ color: 'var(--color-burgundy)' }}>
           إدارة التصنيفات الفرعية
@@ -244,7 +244,7 @@ export default function AdminCategoriesPage() {
             ) : categories.length === 0 ? (
               <div className="text-center py-4 text-muted">لا توجد تصنيفات معرفة حتى الآن.</div>
             ) : (
-              <div className="table-responsive">
+              <div className="admin-table-wrapper">
                 <table className="table align-middle">
                   <thead>
                     <tr>

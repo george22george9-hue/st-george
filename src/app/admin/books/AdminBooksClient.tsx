@@ -119,7 +119,7 @@ export default function AdminBooksClient({ initialBooks, categories }: AdminBook
             لا توجد كتب مطابقة للبحث.
           </div>
         ) : (
-          <div className="table-responsive">
+          <div className="admin-table-wrapper">
             <table className="table align-middle">
               <thead>
                 <tr>

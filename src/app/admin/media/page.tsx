@@ -131,7 +131,7 @@ export default function AdminMediaPage() {
   };
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid p-0">
       <h2 className="fs-3 fw-bold mb-4" style={{ color: 'var(--color-burgundy)' }}>
         إدارة الوسائط والألبوم
       </h2>

@@ -18,6 +18,10 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  if (pathname.startsWith('/admin')) {
+    return null;
+  }
+
   const navLinks = [
     { href: '/', label: 'الرئيسية' },
     { href: '/about', label: 'عن الكنيسة' },

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
@@ -11,7 +11,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
   const router = useRouter();
 
-  // If on login page, render without admin sidebar
+  // Body scroll locking when mobile drawer is open
+  useEffect(() => {
+    if (isSidebarOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isSidebarOpen]);
+
+  // If on login page, render without admin layout shell
   if (pathname === '/admin/login') {
     return <>{children}</>;
   }
@@ -33,38 +45,82 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   ];
 
   return (
-    <div className="d-flex min-vh-100" style={{ backgroundColor: 'var(--color-ivory)' }}>
-      {/* Sidebar Navigation */}
-      <aside
-        className={`d-flex flex-column p-3 text-parchment position-fixed top-0 bottom-0 start-0 z-1000 transition-fast ${
-          isSidebarOpen ? 'd-flex' : 'd-none d-lg-flex'
-        }`}
-        style={{
-          width: '280px',
-          backgroundColor: 'var(--color-burgundy-dark)',
-          borderLeft: '2px solid var(--color-gold-muted)',
-          boxShadow: 'var(--shadow-burgundy)',
-        }}
-      >
-        {/* Sidebar Header */}
-        <div className="d-flex align-items-center gap-3 pb-3 mb-3 border-bottom border-secondary" style={{ borderColor: 'rgba(176, 141, 87, 0.3) !important' }}>
+    <div className="admin-shell">
+      {/* 1. Admin Header */}
+      <header className="admin-header">
+        {/* Right side in RTL: Hamburger button + Church Title */}
+        <div className="d-flex align-items-center gap-3">
+          <button
+            className="btn text-white p-1 d-lg-none fs-4 border-0"
+            type="button"
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            aria-label="قائمة الإدارة"
+          >
+            <i className={`fas ${isSidebarOpen ? 'fa-times' : 'fa-bars'}`} />
+          </button>
+
+          <Link href="/admin" className="d-flex align-items-center gap-2 text-decoration-none">
+            <div
+              className="rounded-circle d-flex align-items-center justify-content-center shadow-sm"
+              style={{
+                width: '38px',
+                height: '38px',
+                border: '1.5px solid var(--color-gold-muted)',
+                background: 'rgba(242,231,213,0.15)',
+              }}
+            >
+              <CopticCross size={20} color="var(--color-parchment)" />
+            </div>
+            <span className="fw-bold fs-5 text-white" style={{ fontFamily: 'var(--font-heading)' }}>
+              لوحة الإدارة والتطوير الرقمي
+            </span>
+          </Link>
+        </div>
+
+        {/* Left side in RTL: Quick preview link */}
+        <div className="d-flex align-items-center gap-3">
+          <Link
+            href="/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-sm btn-outline-light rounded-pill px-3 d-flex align-items-center gap-2"
+            style={{ borderColor: 'var(--color-gold-muted)', color: 'var(--color-parchment)' }}
+          >
+            <i className="fas fa-external-link-alt" />
+            <span className="d-none d-sm-inline">المعاينة العامة</span>
+          </Link>
+        </div>
+      </header>
+
+      {/* Mobile Drawer Backdrop */}
+      {isSidebarOpen && (
+        <div
+          className="admin-backdrop d-lg-none"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      {/* 2. Admin Sidebar (Right side in RTL) */}
+      <aside className={`admin-sidebar ${isSidebarOpen ? 'open' : ''}`}>
+        {/* Sidebar Header identity */}
+        <div className="d-flex align-items-center gap-3 pb-3 mb-3 border-bottom" style={{ borderColor: 'rgba(176, 141, 87, 0.3)' }}>
           <div
             className="rounded-circle d-flex align-items-center justify-content-center"
             style={{
-              width: '42px',
-              height: '42px',
+              width: '40px',
+              height: '40px',
               border: '1.5px solid var(--color-gold-muted)',
-              background: 'rgba(242,231,213,0.1)',
+              background: 'rgba(242,231,213,0.12)',
             }}
           >
-            <CopticCross size={22} color="var(--color-parchment)" />
+            <CopticCross size={20} color="var(--color-parchment)" />
           </div>
           <div>
             <h5 className="mb-0 text-white fs-6" style={{ fontFamily: 'var(--font-heading)' }}>
-              لوحة تحكم الإدارة
+              كنيسة مارجرجس
             </h5>
             <span className="small text-white-50" style={{ fontSize: '0.75rem' }}>
-              كنيسة مارجرجس بسندبيس
+              سندبيس - مطرانية شبرا الخيمة
             </span>
           </div>
         </div>
@@ -85,7 +141,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   fontWeight: isActive ? 700 : 500,
                 }}
               >
-                <i className={`fas ${item.icon} fs-6`} style={{ width: '20px' }} />
+                <i className={`fas ${item.icon} fs-6`} style={{ width: '22px' }} />
                 <span>{item.label}</span>
               </Link>
             );
@@ -93,7 +149,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </nav>
 
         {/* Footer / Logout */}
-        <div className="pt-3 border-top border-secondary" style={{ borderColor: 'rgba(176, 141, 87, 0.3) !important' }}>
+        <div className="pt-3 border-top" style={{ borderColor: 'rgba(176, 141, 87, 0.3)' }}>
           <button
             onClick={handleLogout}
             className="btn btn-outline-light w-100 d-flex align-items-center justify-content-center gap-2 py-2 fs-6 rounded-pill"
@@ -104,32 +160,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
       </aside>
 
-      {/* Main Content Area */}
-      <div className="flex-grow-1 d-flex flex-column ms-lg-280" style={{ marginRight: '0' }}>
-        {/* Top Navbar Bar for Mobile Toggle & Quick Actions */}
-        <header className="navbar navbar-expand-lg bg-white border-bottom shadow-sm px-4 py-2 sticky-top" style={{ borderColor: 'var(--color-burgundy-subtle)' }}>
-          <button
-            className="btn btn-outline-secondary d-lg-none me-3"
-            type="button"
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          >
-            <i className="fas fa-bars" />
-          </button>
-
-          <span className="fw-bold fs-6" style={{ color: 'var(--color-burgundy)' }}>
-            لوحة الإدارة والتطوير الرقمي
-          </span>
-
-          <div className="ms-auto d-flex align-items-center gap-3">
-            <Link href="/" target="_blank" className="btn btn-sm btn-outline-dark rounded-pill">
-              <i className="fas fa-external-link-alt me-1" /> المعاينة العامة
-            </Link>
-          </div>
-        </header>
-
-        {/* Page Content */}
-        <main className="p-4 flex-grow-1">{children}</main>
-      </div>
+      {/* 3. Admin Main Content */}
+      <main className="admin-main-content">{children}</main>
     </div>
   );
 }

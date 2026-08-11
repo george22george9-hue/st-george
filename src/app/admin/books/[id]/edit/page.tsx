@@ -101,7 +101,7 @@ export default function EditBookPage({ params }: EditBookPageProps) {
   }
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid p-0">
       <div className="d-flex align-items-center justify-content-between mb-4">
         <h2 className="fs-3 fw-bold mb-0" style={{ color: 'var(--color-burgundy)' }}>
           تعديل بيانات الكتاب
