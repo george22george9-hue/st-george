@@ -54,7 +54,7 @@ export default async function AdminDashboardHomePage() {
   ].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).slice(0, 5);
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid p-0">
       {/* Header Banner */}
       <div className="card-burgundy p-4 mb-4 rounded-3 d-flex align-items-center justify-content-between flex-wrap gap-3">
         <div className="d-flex align-items-center gap-3">
@@ -123,7 +123,7 @@ export default async function AdminDashboardHomePage() {
             لا توجد محتويات مضافة حتى الآن.
           </div>
         ) : (
-          <div className="table-responsive">
+          <div className="admin-table-wrapper">
             <table className="table align-middle">
               <thead>
                 <tr>

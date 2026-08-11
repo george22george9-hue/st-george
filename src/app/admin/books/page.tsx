@@ -25,7 +25,7 @@ export default async function AdminBooksPage() {
   }
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid p-0">
       <div className="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
         <h2 className="fs-3 fw-bold mb-0" style={{ color: 'var(--color-burgundy)' }}>
           إدارة الكتب والمكتبة الرقمية

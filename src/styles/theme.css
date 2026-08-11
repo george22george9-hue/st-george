@@ -41,7 +41,7 @@ a:hover {
 }
 
 .card-parchment:hover {
-  transform: translateY(-4px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-warm-md);
   border-color: var(--color-burgundy);
 }
@@ -156,4 +156,95 @@ a:hover {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-burgundy);
+}
+
+/* ==========================================================================
+   Admin Layout Architecture CSS
+   ========================================================================== */
+
+.admin-shell {
+  min-height: 100vh;
+  background-color: var(--color-ivory);
+  direction: rtl;
+}
+
+.admin-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 64px;
+  background-color: var(--color-burgundy-dark);
+  border-bottom: 2px solid var(--color-gold-muted);
+  box-shadow: var(--shadow-burgundy);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+}
+
+.admin-sidebar {
+  position: fixed;
+  top: 64px;
+  right: 0;
+  width: 280px;
+  height: calc(100vh - 64px);
+  background-color: var(--color-burgundy);
+  border-left: 1px solid rgba(176, 141, 87, 0.3);
+  z-index: 990;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 1rem;
+  transition: transform var(--transition-normal);
+}
+
+.admin-main-content {
+  margin-top: 64px;
+  margin-right: 280px;
+  width: calc(100% - 280px);
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 1.75rem 2rem;
+  min-height: calc(100vh - 64px);
+}
+
+@media (max-width: 1023.98px) {
+  .admin-sidebar {
+    top: 0;
+    height: 100vh;
+    z-index: 1050;
+    transform: translateX(100%);
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .admin-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .admin-main-content {
+    margin-right: 0;
+    width: 100%;
+    padding: 1.25rem 1rem;
+  }
+}
+
+.admin-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+  backdrop-filter: blur(2px);
+}
+
+.admin-table-wrapper {
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-warm-sm);
+  background-color: var(--color-parchment);
+}
+
+.admin-table-wrapper table {
+  margin-bottom: 0;
 }
