@@ -1,36 +1,45 @@
 /* ==========================================================================
-   Coptic Orthodox Church Platform - Design Tokens
+   Coptic Orthodox Church Platform - Design Tokens & Variables
    ========================================================================== */
 
 :root {
-  /* Dominant Colors */
+  /* Dominant Brand Palette */
   --color-burgundy: #6F1D1B;         /* Deep Orthodox Burgundy */
-  --color-burgundy-dark: #5A1715;    /* Dark Church Red */
+  --color-burgundy-dark: #4A1010;    /* Dark Wine Red */
   --color-burgundy-light: #7A2422;   /* Muted Church Red */
   
-  --color-parchment: #F2E7D5;        /* Warm Parchment */
+  --color-parchment: #F2E7D5;        /* Warm Parchment Surface */
   --color-parchment-dark: #E8D9C4;   /* Deep Parchment / Beige */
-  --color-parchment-muted: #D8C3A5;  /* Subtle Beige Border */
+  --color-parchment-muted: #D8C3A5;  /* Subtle Parchment Border */
   
-  --color-ivory: #FAF6EF;            /* Warm Ivory Background */
+  --color-ivory: #FAF6EF;            /* Warm Sacred Ivory */
   --color-cream: #F5EFE5;            /* Secondary Cream Background */
   
-  --color-text-dark: #2A211C;        /* Very Dark Warm Brown / Charcoal */
+  --color-text-dark: #281F1A;        /* Dark Warm Brown Text */
   --color-text-muted: #5C4F46;       /* Warm Muted Brown Text */
   
-  --color-gold-muted: #B08D57;       /* Muted Antique Gold (Used Sparingly) */
-  --color-gold-light: #D4AF37;       /* Soft Gold Accent */
+  --color-gold-muted: #B08D57;       /* Muted Antique Gold */
+  --color-gold-light: #C49A52;       /* Soft Antique Gold Accent */
+  --color-gold-bright: #D4AF37;      /* Bright Gold Sparkle */
+
+  /* Gradients */
+  --gradient-gold: linear-gradient(135deg, #D4AF37 0%, #B08D57 50%, #8C6A32 100%);
+  --gradient-gold-subtle: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(176, 141, 87, 0.05) 100%);
+  --gradient-burgundy: linear-gradient(135deg, #6F1D1B 0%, #4A1010 100%);
+  --gradient-parchment: linear-gradient(180deg, #FAF6EF 0%, #F2E7D5 100%);
 
   /* Borders & Shadows */
   --border-burgundy-subtle: 1px solid rgba(111, 29, 27, 0.15);
   --border-burgundy-strong: 1px solid rgba(111, 29, 27, 0.4);
   --border-parchment: 1px solid rgba(216, 195, 165, 0.6);
-  --border-gold-subtle: 1px solid rgba(176, 141, 87, 0.3);
+  --border-gold-subtle: 1px solid rgba(176, 141, 87, 0.35);
+  --border-gold-strong: 1.5px solid rgba(196, 154, 82, 0.7);
 
-  --shadow-warm-sm: 0 2px 8px rgba(42, 33, 28, 0.04);
-  --shadow-warm-md: 0 8px 24px rgba(42, 33, 28, 0.08);
-  --shadow-warm-lg: 0 16px 40px rgba(42, 33, 28, 0.12);
-  --shadow-burgundy: 0 10px 30px rgba(90, 23, 21, 0.2);
+  --shadow-warm-sm: 0 2px 8px rgba(40, 31, 26, 0.04);
+  --shadow-warm-md: 0 8px 24px rgba(40, 31, 26, 0.08);
+  --shadow-warm-lg: 0 16px 40px rgba(40, 31, 26, 0.12);
+  --shadow-burgundy: 0 10px 30px rgba(74, 16, 16, 0.25);
+  --shadow-gold-glow: 0 0 20px rgba(196, 154, 82, 0.25);
 
   /* Typography */
   --font-primary: var(--font-cairo), 'Cairo', sans-serif;
@@ -45,4 +54,5 @@
   /* Transitions */
   --transition-fast: 0.2s ease-in-out;
   --transition-normal: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }

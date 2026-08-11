@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import { Category, Section } from '@/types/database';
 import { createClient } from '@/lib/supabase/client';
 
@@ -17,11 +18,14 @@ export default function AdminCategoriesPage() {
   const [description, setDescription] = useState('');
   const [displayOrder, setDisplayOrder] = useState(0);
   const [isActive, setIsActive] = useState(true);
+  const [coverFile, setCoverFile] = useState<File | null>(null);
+  const [existingCoverUrl, setExistingCoverUrl] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
 
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     try {
       const supabase = createClient();
@@ -39,12 +43,11 @@ export default function AdminCategoriesPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [sectionId]);
 
   useEffect(() => {
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [fetchData]);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,24 +59,41 @@ export default function AdminCategoriesPage() {
       return;
     }
 
+    setSaving(true);
     try {
       const supabase = createClient();
+
+      let imageUrl = existingCoverUrl;
+      let coverStoragePath = editingCategory?.cover_storage_path || null;
+
+      if (coverFile) {
+        const fileExt = coverFile.name.split('.').pop() || 'webp';
+        const fileName = `category-covers/${crypto.randomUUID()}.${fileExt}`;
+        const { error: uploadErr } = await supabase.storage.from('images').upload(fileName, coverFile);
+        if (uploadErr) throw uploadErr;
+
+        const { data: pubUrl } = supabase.storage.from('images').getPublicUrl(fileName);
+        imageUrl = pubUrl.publicUrl;
+        coverStoragePath = fileName;
+      }
+
+      const payload = {
+        section_id: sectionId,
+        name: name.trim(),
+        slug: slug.trim(),
+        description: description.trim() || null,
+        display_order: displayOrder,
+        is_active: isActive,
+        image_url: imageUrl,
+        cover_storage_path: coverStoragePath,
+      };
+
       if (editingCategory) {
-        const { error } = await supabase
-          .from('categories')
-          .update({ section_id: sectionId, name, slug, description, display_order: displayOrder, is_active: isActive })
-          .eq('id', editingCategory.id);
+        const { error } = await supabase.from('categories').update(payload).eq('id', editingCategory.id);
         if (error) throw error;
         setSuccessMessage('تم تحديث التصنيف بنجاح.');
       } else {
-        const { error } = await supabase.from('categories').insert({
-          section_id: sectionId,
-          name,
-          slug,
-          description,
-          display_order: displayOrder,
-          is_active: isActive,
-        });
+        const { error } = await supabase.from('categories').insert(payload);
         if (error) throw error;
         setSuccessMessage('تم إضافة التصنيف الجديد بنجاح.');
       }
@@ -82,6 +102,8 @@ export default function AdminCategoriesPage() {
       fetchData();
     } catch (err: any) {
       setErrorMessage(err.message || 'حدث خطأ أثناء الحفظ.');
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -93,7 +115,7 @@ export default function AdminCategoriesPage() {
       const { error } = await supabase.from('categories').delete().eq('id', id);
       if (error) {
         if (error.code === '23503') {
-          throw new Error('لا يمكن حذف التصنيف لأنه مستخدم في كتب أو وسائط.');
+          throw new Error('لا يمكن حذف التصنيف لأنه مستخدم في كتب أو وسائط أو محتويات.');
         }
         throw error;
       }
@@ -113,6 +135,8 @@ export default function AdminCategoriesPage() {
     setDescription(cat.description || '');
     setDisplayOrder(cat.display_order);
     setIsActive(cat.is_active);
+    setExistingCoverUrl(cat.image_url || null);
+    setCoverFile(null);
   };
 
   const resetForm = () => {
@@ -122,13 +146,15 @@ export default function AdminCategoriesPage() {
     setDescription('');
     setDisplayOrder(0);
     setIsActive(true);
+    setExistingCoverUrl(null);
+    setCoverFile(null);
   };
 
   return (
     <div className="container-fluid p-0">
       <div className="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
         <h2 className="fs-3 fw-bold mb-0" style={{ color: 'var(--color-burgundy)' }}>
-          إدارة التصنيفات الفرعية
+          إدارة التصنيفات الفرعية وغلاف الخدمة
         </h2>
         {editingCategory && (
           <button className="btn btn-outline-secondary btn-sm" onClick={resetForm}>
@@ -145,11 +171,11 @@ export default function AdminCategoriesPage() {
         <div className="col-lg-4">
           <div className="card-parchment p-4">
             <h4 className="fs-5 mb-3" style={{ color: 'var(--color-burgundy)' }}>
-              {editingCategory ? 'تعديل تصنيف' : 'إضافة تصنيف جديد'}
+              {editingCategory ? 'تعديل بيانات التصنيف' : 'إضافة تصنيف فرعي جديد'}
             </h4>
             <form onSubmit={handleSave}>
               <div className="mb-3">
-                <label className="form-label small fw-bold">القسم الرئيسي *</label>
+                <label className="form-label small fw-bold">القسم الرئيسي التابع له *</label>
                 <select
                   required
                   className="form-select"
@@ -166,7 +192,7 @@ export default function AdminCategoriesPage() {
               </div>
 
               <div className="mb-3">
-                <label className="form-label small fw-bold">اسم التصنيف *</label>
+                <label className="form-label small fw-bold">اسم التصنيف / الخدمة *</label>
                 <input
                   type="text"
                   required
@@ -189,6 +215,28 @@ export default function AdminCategoriesPage() {
                   className="form-control"
                   value={slug}
                   onChange={(e) => setSlug(e.target.value)}
+                />
+              </div>
+
+              <div className="mb-3">
+                <label className="form-label small fw-bold">صورة الغلاف / البوستر (Cover Image)</label>
+                {existingCoverUrl && (
+                  <div className="position-relative mb-2 rounded overflow-hidden border" style={{ width: '100%', height: '140px' }}>
+                    <Image src={existingCoverUrl} alt={name} fill style={{ objectFit: 'cover' }} />
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-danger position-absolute top-0 end-0 m-1"
+                      onClick={() => setExistingCoverUrl(null)}
+                    >
+                      إزالة الغلاف
+                    </button>
+                  </div>
+                )}
+                <input
+                  type="file"
+                  className="form-control form-control-sm"
+                  accept="image/jpeg,image/png,image/webp"
+                  onChange={(e) => setCoverFile(e.target.files?.[0] || null)}
                 />
               </div>
 
@@ -225,8 +273,8 @@ export default function AdminCategoriesPage() {
                 </label>
               </div>
 
-              <button type="submit" className="btn-burgundy w-100 justify-content-center">
-                {editingCategory ? 'تحديث التصنيف' : 'حفظ التصنيف'}
+              <button type="submit" className="btn-burgundy w-100 justify-content-center" disabled={saving}>
+                {saving ? 'جاري الحفظ...' : editingCategory ? 'تحديث التصنيف' : 'حفظ التصنيف'}
               </button>
             </form>
           </div>
@@ -248,6 +296,7 @@ export default function AdminCategoriesPage() {
                 <table className="table align-middle">
                   <thead>
                     <tr>
+                      <th>غلاف الخدمة</th>
                       <th>اسم التصنيف</th>
                       <th>القسم الرئيسي</th>
                       <th>Slug</th>
@@ -260,6 +309,17 @@ export default function AdminCategoriesPage() {
                       const parentSection = sections.find((s) => s.id === cat.section_id);
                       return (
                         <tr key={cat.id}>
+                          <td style={{ width: '60px' }}>
+                            {cat.image_url ? (
+                              <div className="position-relative rounded overflow-hidden" style={{ width: '42px', height: '42px' }}>
+                                <Image src={cat.image_url} alt={cat.name} fill style={{ objectFit: 'cover' }} />
+                              </div>
+                            ) : (
+                              <div className="rounded bg-secondary bg-opacity-25 d-flex align-items-center justify-content-center" style={{ width: '42px', height: '42px' }}>
+                                <i className="fas fa-image text-muted" />
+                              </div>
+                            )}
+                          </td>
                           <td className="fw-bold">{cat.name}</td>
                           <td>
                             <span className="badge bg-light text-dark border">

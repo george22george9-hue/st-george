@@ -82,6 +82,8 @@ export default function SectionControlCenterPage({ params }: SectionControlCente
 
   const isCore = section ? CORE_SECTION_SLUGS.includes(section.slug) : false;
 
+  const [coverFile, setCoverFile] = useState<File | null>(null);
+
   const handleUpdateSection = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!section) return;
@@ -92,13 +94,28 @@ export default function SectionControlCenterPage({ params }: SectionControlCente
 
     try {
       const supabase = createClient();
+      let updatedImageUrl = imageUrl;
+      let coverStoragePath = section.cover_storage_path || null;
+
+      if (coverFile) {
+        const fileExt = coverFile.name.split('.').pop() || 'webp';
+        const fileName = `section-covers/${section.id}.${fileExt}`;
+        const { error: uploadErr } = await supabase.storage.from('images').upload(fileName, coverFile, { upsert: true });
+        if (uploadErr) throw uploadErr;
+
+        const { data: pubUrl } = supabase.storage.from('images').getPublicUrl(fileName);
+        updatedImageUrl = pubUrl.publicUrl;
+        coverStoragePath = fileName;
+      }
+
       const { error } = await supabase
         .from('sections')
         .update({
           name,
           slug,
           description,
-          image_url: imageUrl,
+          image_url: updatedImageUrl,
+          cover_storage_path: coverStoragePath,
           display_order: displayOrder,
           is_active: isActive,
         })
@@ -505,6 +522,16 @@ export default function SectionControlCenterPage({ params }: SectionControlCente
                   className="form-control"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
+                />
+              </div>
+
+              <div className="col-md-6">
+                <label className="form-label small fw-bold">رفع صورة الغلاف / البوستر (Cover Image File)</label>
+                <input
+                  type="file"
+                  className="form-control"
+                  accept="image/jpeg,image/png,image/webp"
+                  onChange={(e) => setCoverFile(e.target.files?.[0] || null)}
                 />
               </div>
 

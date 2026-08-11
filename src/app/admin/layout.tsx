@@ -39,6 +39,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { href: '/admin', label: 'الرئيسية والإحصائيات', icon: 'fa-chart-pie' },
     { href: '/admin/sections', label: 'إدارة الأقسام', icon: 'fa-layer-group' },
     { href: '/admin/categories', label: 'إدارة التصنيفات', icon: 'fa-folder-tree' },
+    { href: '/admin/content', label: 'إدارة المحتوى والبوسترات', icon: 'fa-feather-alt' },
     { href: '/admin/books', label: 'إدارة الكتب والمكتبة', icon: 'fa-book-open' },
     { href: '/admin/media', label: 'إدارة الوسائط والمعرض', icon: 'fa-photo-video' },
     { href: '/admin/users', label: 'المستخدمون والصلاحيات', icon: 'fa-users-cog' },

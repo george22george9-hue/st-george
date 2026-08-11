@@ -7,6 +7,7 @@ export const createSectionSchema = z.object({
   slug: z.string().min(2).max(100).regex(SLUG_REGEX, 'Slug must contain only lowercase letters, numbers, and hyphens'),
   description: z.string().max(1000, 'Description cannot exceed 1000 characters').optional().nullable(),
   image_url: z.string().url('Invalid image URL format').optional().nullable(),
+  cover_storage_path: z.string().optional().nullable(),
   is_active: z.boolean().default(true),
   display_order: z.number().int().min(0).default(0),
 });

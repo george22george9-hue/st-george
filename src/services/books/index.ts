@@ -70,18 +70,30 @@ export async function getBookBySlug(slug: string): Promise<Book | null> {
   return data as Book;
 }
 
-export async function getBookSignedDownloadUrl(bookId: string, expiresInSeconds = 3600): Promise<string> {
-  await requireUser();
+export async function getBookSignedDownloadUrl(bookId: string, action: 'read' | 'download' = 'download', expiresInSeconds = 3600): Promise<string> {
   const supabase = await createClient();
 
   const { data: book, error } = await supabase
     .from('books')
-    .select('file_storage_path, is_published')
+    .select('file_storage_path, is_published, allow_reading, allow_download')
     .eq('id', bookId)
     .single();
 
   if (error || !book) {
     throw new Error('Book not found.');
+  }
+
+  // If unpublished, require admin role
+  if (!book.is_published) {
+    await requireAdmin();
+  }
+
+  if (action === 'read' && book.allow_reading === false) {
+    throw new Error('Online reading is disabled for this book.');
+  }
+
+  if (action === 'download' && book.allow_download === false) {
+    throw new Error('File download is disabled for this book.');
   }
 
   if (!book.file_storage_path) {
