@@ -119,7 +119,7 @@ export default async function SingleServicePage({ params }: SingleServicePagePro
                 <Image src={coverImageUrl} alt={targetName || 'غلاف الخدمة'} fill priority style={{ objectFit: 'cover' }} />
                 <div className="position-absolute inset-0 bg-dark bg-opacity-40 d-flex align-items-center justify-content-center p-4">
                   <div className="text-center text-white">
-                    <h1 className="display-4 fw-bold mb-2 text-parchment" style={{ fontFamily: 'var(--font-heading)' }}>
+                    <h1 className="display-4 fw-bold mb-2 text-parchment" style={{ fontFamily: 'var(--font-kufi)' }}>
                       {targetName}
                     </h1>
                     {section && <span className="badge-coptic">قسم رئيسي</span>}

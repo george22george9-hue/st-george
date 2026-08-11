@@ -1,6 +1,9 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import CopticCross from '@/components/ornaments/CopticCross';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface BookCardProps {
   id: string;
@@ -19,6 +22,8 @@ export default function BookCard({
   coverUrl,
   description,
 }: BookCardProps) {
+  const { t } = useLanguage();
+
   return (
     <div className="card-parchment h-100 d-flex flex-column p-3 overflow-hidden interactive-3d">
       <div
@@ -43,11 +48,11 @@ export default function BookCard({
             <div className="mb-2 opacity-90">
               <CopticCross size={42} color="var(--color-gold-light)" />
             </div>
-            <h5 className="fs-6 fw-bold mb-1 px-2 text-gold-light" style={{ fontFamily: 'var(--font-heading)' }}>
+            <h5 className="fs-6 fw-bold mb-1 px-2 text-gold-light" style={{ fontFamily: 'var(--font-kufi)' }}>
               {title}
             </h5>
             <span className="small text-white-50" style={{ fontSize: '0.75rem' }}>
-              مؤلفات كنيسة مارجرجس
+              {t.library.publisher}
             </span>
           </div>
         )}
@@ -55,15 +60,15 @@ export default function BookCard({
 
       <div className="d-flex flex-column flex-grow-1">
         {category && <span className="badge-coptic mb-2 align-self-start">{category}</span>}
-        <h4 className="fs-5 mb-1 text-truncate" style={{ color: 'var(--color-burgundy)', fontFamily: 'var(--font-heading)' }}>
+        <h4 className="fs-5 mb-1 text-truncate" style={{ color: 'var(--color-burgundy)', fontFamily: 'var(--font-kufi)' }}>
           {title}
         </h4>
-        {author && <p className="small text-muted mb-2">المؤلف: {author}</p>}
+        {author && <p className="small text-muted mb-2">{t.library.authorLabel}: {author}</p>}
         {description && <p className="small text-muted line-clamp-2 mb-3">{description}</p>}
 
         <div className="mt-auto pt-2">
           <Link href={`/books/${id}`} className="btn-burgundy w-100 justify-content-center btn-sm">
-            <i className="fas fa-book-open" /> تفاصيل وقراءة الكتاب
+            <i className="fas fa-book-open me-1" /> {t.library.readAndDetails}
           </Link>
         </div>
       </div>

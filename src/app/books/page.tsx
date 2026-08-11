@@ -28,7 +28,9 @@ export default async function BooksPage() {
         <ScrollReveal direction="up">
           <div className="text-center mb-5">
             <Church3DIcon type="bible" size="lg" className="mb-3" />
-            <h1 className="display-4 fw-bold mb-2">المكتبة الكنسية الرقمية</h1>
+            <h1 className="display-4 fw-bold mb-2" style={{ fontFamily: 'var(--font-kufi)' }}>
+              المكتبة الكنسية الرقمية
+            </h1>
             <p className="text-muted fs-5">موسوعة الكتب والقراءات الروحية والطقسية لكنيسة مارجرجس بسندبيس</p>
             <CopticDivider className="my-3" />
           </div>
@@ -38,7 +40,7 @@ export default async function BooksPage() {
           <ScrollReveal delayMs={150} direction="up">
             <div className="card-parchment p-5 text-center my-5 mx-auto" style={{ maxWidth: '650px' }}>
               <Church3DIcon type="bible" size="md" className="mb-3" />
-              <h4 className="fs-4 mb-2" style={{ color: 'var(--color-burgundy)' }}>
+              <h4 className="fs-4 mb-2" style={{ color: 'var(--color-burgundy)', fontFamily: 'var(--font-kufi)' }}>
                 لا توجد كتب متاحة في هذا القسم حالياً
               </h4>
               <p className="text-muted mb-0">جاري إعداد ورفع الكتب والمؤلفات الكنسية بواسطة خادمي المكتبة الرقمية.</p>

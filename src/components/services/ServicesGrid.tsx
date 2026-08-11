@@ -1,8 +1,11 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { Section, Category } from '@/types/database';
 import Church3DIcon, { Church3DIconType } from '@/components/ornaments/Church3DIcon';
 import ScrollReveal from '@/components/shared/ScrollReveal';
+import { useLanguage } from '@/context/LanguageContext';
 
 export interface DynamicSectionGroup {
   section: Section;
@@ -14,14 +17,16 @@ interface ServicesGridProps {
 }
 
 export default function ServicesGrid({ groups }: ServicesGridProps) {
+  const { t, dir } = useLanguage();
+
   if (!groups || groups.length === 0) {
     return (
       <div className="text-center py-5 card-parchment p-5">
         <Church3DIcon type="church" size="lg" className="mb-3" />
-        <h4 className="fs-4 mb-2" style={{ color: 'var(--color-burgundy)' }}>
-          لا توجد أقسام أو خدمات متاحة حالياً
+        <h4 className="fs-4 mb-2" style={{ color: 'var(--color-burgundy)', fontFamily: 'var(--font-kufi)' }}>
+          {t.services.noServices}
         </h4>
-        <p className="text-muted mb-0">جاري إعداد وتحديث الأنشطة والخدمات الكنسية.</p>
+        <p className="text-muted mb-0">{t.services.noServicesSub}</p>
       </div>
     );
   }
@@ -57,7 +62,7 @@ export default function ServicesGrid({ groups }: ServicesGridProps) {
                   className="fs-3 mb-0"
                   style={{
                     color: 'var(--color-burgundy)',
-                    fontFamily: 'var(--font-heading)',
+                    fontFamily: 'var(--font-kufi)',
                   }}
                 >
                   {group.section.name}
@@ -71,7 +76,7 @@ export default function ServicesGrid({ groups }: ServicesGridProps) {
 
           {group.categories.length === 0 ? (
             <div className="card-parchment p-4 text-center text-muted">
-              لا توجد تصنيفات فرعية مضافة في هذا القسم حتى الآن.
+              {t.services.noServices}
             </div>
           ) : (
             <div className="row g-4">
@@ -98,14 +103,17 @@ export default function ServicesGrid({ groups }: ServicesGridProps) {
                         )}
 
                         <div className="p-3 d-flex flex-column flex-grow-1 justify-content-center">
-                          <h5 className="fs-5 mb-1 fw-bold" style={{ color: 'var(--color-burgundy)', fontFamily: 'var(--font-heading)' }}>
+                          <h5 className="fs-5 mb-1 fw-bold" style={{ color: 'var(--color-burgundy)', fontFamily: 'var(--font-kufi)' }}>
                             {cat.name}
                           </h5>
                           {cat.description && (
                             <p className="small text-muted mb-3 line-clamp-2">{cat.description}</p>
                           )}
-                          <span className="btn btn-sm btn-outline-dark rounded-pill mt-auto align-self-center px-3" style={{ borderColor: 'var(--color-gold-muted)', color: 'var(--color-burgundy)' }}>
-                            عرض الخدمة <i className="fas fa-chevron-left ms-1" style={{ fontSize: '0.75rem' }} />
+                          <span
+                            className="btn btn-sm btn-outline-dark rounded-pill mt-auto align-self-center px-3"
+                            style={{ borderColor: 'var(--color-gold-muted)', color: 'var(--color-burgundy)', fontFamily: 'var(--font-kufi)' }}
+                          >
+                            {t.services.viewService} <i className={`fas ${dir === 'rtl' ? 'fa-chevron-left' : 'fa-chevron-right'} ms-1`} style={{ fontSize: '0.75rem' }} />
                           </span>
                         </div>
                       </div>

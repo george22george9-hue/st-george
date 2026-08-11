@@ -43,7 +43,8 @@
 
   /* Typography */
   --font-primary: var(--font-cairo), 'Cairo', sans-serif;
-  --font-heading: var(--font-amiri), 'Amiri', serif;
+  --font-heading: var(--font-reem-kufi), 'Reem Kufi', var(--font-amiri), serif;
+  --font-kufi: var(--font-reem-kufi), 'Reem Kufi', sans-serif;
 
   /* Spacing & Radii */
   --radius-sm: 6px;
