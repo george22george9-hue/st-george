@@ -14,7 +14,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 30);
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -49,25 +49,25 @@ export default function Navbar() {
       }}
     >
       <div className="container py-2">
-        <div className="d-flex align-items-center justify-content-between">
+        <div className="d-flex align-items-center justify-content-between gap-2">
           {/* Church Identity Area */}
-          <Link href="/" className="d-flex align-items-center text-decoration-none gap-3">
+          <Link href="/" className="d-flex align-items-center text-decoration-none gap-2 gap-sm-3 min-w-0 flex-shrink-1">
             <div
               className="rounded-circle d-flex align-items-center justify-content-center shadow-sm flex-shrink-0"
               style={{
-                width: '46px',
-                height: '46px',
+                width: '42px',
+                height: '42px',
                 border: '1.5px solid var(--color-gold-muted)',
                 background: 'rgba(242,231,213,0.15)',
               }}
             >
-              <CopticCross size={24} color="var(--color-parchment)" />
+              <CopticCross size={22} color="var(--color-parchment)" />
             </div>
-            <div className="d-flex flex-column lh-sm">
+            <div className="d-flex flex-column lh-sm min-w-0">
               <span
-                className="fw-bold"
+                className="fw-bold text-truncate d-none d-sm-inline"
                 style={{
-                  fontSize: '0.78rem',
+                  fontSize: 'clamp(0.68rem, 2vw, 0.78rem)',
                   color: 'var(--color-gold-muted)',
                   letterSpacing: '0.01em',
                   fontFamily: 'var(--font-kufi)',
@@ -76,8 +76,12 @@ export default function Navbar() {
                 {t.nav.diocese}
               </span>
               <span
-                className="fw-bold fs-5 text-white"
-                style={{ fontFamily: 'var(--font-kufi)', letterSpacing: '-0.01em' }}
+                className="fw-bold text-truncate text-white"
+                style={{
+                  fontSize: 'clamp(0.85rem, 3.2vw, 1.15rem)',
+                  fontFamily: 'var(--font-kufi)',
+                  letterSpacing: '-0.01em',
+                }}
               >
                 {t.nav.churchName}
               </span>
@@ -128,7 +132,7 @@ export default function Navbar() {
           </nav>
 
           {/* Mobile Right Controls: Language Switcher + Hamburger Toggle */}
-          <div className="d-lg-none d-flex align-items-center gap-2">
+          <div className="d-lg-none d-flex align-items-center gap-1.5 flex-shrink-0">
             <button
               onClick={toggleLanguage}
               className="btn btn-sm btn-outline-light rounded-pill px-2 py-1 fs-6"
@@ -136,7 +140,7 @@ export default function Navbar() {
                 borderColor: 'var(--color-gold-muted)',
                 color: 'var(--color-parchment)',
                 fontFamily: 'var(--font-kufi)',
-                fontSize: '0.8rem',
+                fontSize: '0.78rem',
               }}
               aria-label="Change language"
             >
@@ -145,7 +149,7 @@ export default function Navbar() {
             </button>
 
             <button
-              className="btn text-parchment border-0 p-2 fs-3"
+              className="btn text-parchment border-0 p-2 fs-4"
               type="button"
               onClick={() => setIsOpen(!isOpen)}
               aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}

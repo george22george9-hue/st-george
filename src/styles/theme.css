@@ -45,32 +45,53 @@ a:hover {
   color: var(--color-burgundy-light);
 }
 
-/* Hero Church Background Framing */
-.hero-church-bg {
-  background-image: linear-gradient(
+/* Hero Responsive Overlay & Positioning Rules */
+.hero-overlay-gradient {
+  background: linear-gradient(
     90deg,
-    rgba(25, 10, 8, 0.02) 0%,
-    rgba(25, 10, 8, 0.12) 28%,
-    rgba(25, 10, 8, 0.50) 52%,
-    rgba(25, 10, 8, 0.82) 75%,
-    rgba(25, 10, 8, 0.95) 100%
-  ), url('/images/church.jpeg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: left center;
+    rgba(20, 7, 6, 0.05) 0%,
+    rgba(20, 7, 6, 0.22) 35%,
+    rgba(20, 7, 6, 0.68) 65%,
+    rgba(20, 7, 6, 0.94) 88%,
+    rgba(20, 7, 6, 0.98) 100%
+  );
+}
+
+html[dir="ltr"] .hero-overlay-gradient {
+  background: linear-gradient(
+    270deg,
+    rgba(20, 7, 6, 0.05) 0%,
+    rgba(20, 7, 6, 0.22) 35%,
+    rgba(20, 7, 6, 0.68) 65%,
+    rgba(20, 7, 6, 0.94) 88%,
+    rgba(20, 7, 6, 0.98) 100%
+  );
 }
 
 @media (max-width: 991.98px) {
-  .hero-church-bg {
-    background-image: linear-gradient(
+  .hero-overlay-gradient {
+    background: linear-gradient(
       180deg,
-      rgba(25, 10, 8, 0.25) 0%,
-      rgba(25, 10, 8, 0.65) 45%,
-      rgba(25, 10, 8, 0.92) 100%
-    ), url('/images/church.jpeg');
-    background-position: center 25%;
+      rgba(20, 7, 6, 0.20) 0%,
+      rgba(20, 7, 6, 0.60) 40%,
+      rgba(20, 7, 6, 0.92) 100%
+    ) !important;
   }
 }
+
+/* Mobile Hero Buttons Container */
+@media (max-width: 639.98px) {
+  .hero-cta-group {
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100%;
+  }
+  .hero-cta-group .btn {
+    width: min(100%, 340px) !important;
+    justify-content: center !important;
+  }
+}
+
 
 
 
