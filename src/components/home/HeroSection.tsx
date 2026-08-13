@@ -8,7 +8,8 @@ import ScrollReveal from '@/components/shared/ScrollReveal';
 import { useLanguage } from '@/context/LanguageContext';
 
 export default function HeroSection() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
+  const isAr = language === 'ar';
 
   return (
     <section
@@ -20,7 +21,7 @@ export default function HeroSection() {
         paddingBottom: '65px',
       }}
     >
-      {/* Layer 1 (z-index 0) — Full-Width Responsive Church Image Background */}
+      {/* Layer 1 (z-index 0) — Full-Width Church Image Background (Natural Orientation) */}
       <div
         className="position-absolute top-0 start-0 w-100 h-100"
         style={{ zIndex: 0 }}
@@ -38,16 +39,21 @@ export default function HeroSection() {
         />
       </div>
 
-      {/* Layer 2 (z-index 10) — Directional Gradient Overlay (Responsive for RTL/LTR & Mobile) */}
+      {/* Layer 2 (z-index 10) — Language-Aware Directional Gradient Overlay */}
       <div
         className="position-absolute top-0 start-0 w-100 h-100 pointer-events-none hero-overlay-gradient"
-        style={{ zIndex: 10 }}
+        style={{
+          zIndex: 10,
+          background: isAr
+            ? 'linear-gradient(90deg, rgba(20, 7, 6, 0.05) 0%, rgba(20, 7, 6, 0.22) 35%, rgba(20, 7, 6, 0.68) 65%, rgba(20, 7, 6, 0.94) 88%, rgba(20, 7, 6, 0.98) 100%)'
+            : 'linear-gradient(270deg, rgba(20, 7, 6, 0.05) 0%, rgba(20, 7, 6, 0.22) 35%, rgba(20, 7, 6, 0.68) 65%, rgba(20, 7, 6, 0.94) 88%, rgba(20, 7, 6, 0.98) 100%)',
+        }}
       />
 
       {/* Atmosphere Effect */}
       <AtmosphereEffect density="medium" />
 
-      {/* Layer 3 (z-index 20) — Centered Responsive Content Container */}
+      {/* Layer 3 (z-index 20) — Centered Language-Aware Responsive Content Container */}
       <div
         className="position-relative my-auto px-3 px-sm-4 px-md-5"
         style={{
@@ -56,10 +62,19 @@ export default function HeroSection() {
           marginInline: 'auto',
         }}
       >
-        <div className="row align-items-center justify-content-end">
-          {/* Content Column (Responsive start-aligned in both RTL & LTR) */}
-          <div className="col-lg-7 col-xl-6 text-center text-lg-start ms-auto pt-2 pt-lg-0">
-            {/* Diocese Emblem Badge (with ~25px breathing clearance below navbar) */}
+        <div
+          dir={isAr ? 'rtl' : 'ltr'}
+          className={`row align-items-center ${
+            isAr ? 'justify-content-center justify-content-lg-end' : 'justify-content-center justify-content-lg-start'
+          }`}
+        >
+          {/* Content Column (Right in Arabic RTL, Left in English LTR) */}
+          <div
+            className={`col-lg-7 col-xl-6 text-center pt-2 pt-lg-0 ${
+              isAr ? 'ms-lg-auto text-lg-end' : 'me-lg-auto text-lg-start'
+            }`}
+          >
+            {/* Diocese Emblem Badge */}
             <ScrollReveal delayMs={200} direction="fade">
               <div
                 className="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill mb-3"
@@ -103,7 +118,9 @@ export default function HeroSection() {
             {/* Description */}
             <ScrollReveal delayMs={500} direction="up">
               <p
-                className="mb-4 leading-relaxed mx-auto mx-lg-0"
+                className={`mb-4 leading-relaxed mx-auto ${
+                  isAr ? 'ms-lg-auto me-lg-0' : 'me-lg-auto ms-lg-0'
+                }`}
                 style={{
                   color: 'rgba(255, 248, 232, 0.90)',
                   fontSize: 'clamp(0.95rem, 2.2vw, 1.2rem)',
@@ -117,7 +134,11 @@ export default function HeroSection() {
 
             {/* CTA Buttons */}
             <ScrollReveal delayMs={650} direction="up">
-              <div className="hero-cta-group d-flex gap-3 justify-content-center justify-content-lg-start flex-wrap pt-2">
+              <div
+                className={`hero-cta-group d-flex gap-3 justify-content-center ${
+                  isAr ? 'justify-content-lg-start' : 'justify-content-lg-start'
+                } flex-wrap pt-2`}
+              >
                 <Link
                   href="/services"
                   className="btn px-4 py-3 fs-6 rounded-pill fw-bold text-decoration-none d-inline-flex align-items-center gap-2 transition-all"
