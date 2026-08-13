@@ -14,13 +14,13 @@ export default function HeroSection() {
     <section
       className="position-relative overflow-hidden d-flex align-items-center"
       style={{
-        minHeight: 'calc(100vh - 64px)',
+        minHeight: 'clamp(560px, 88dvh, 900px)',
         backgroundColor: '#140706',
         paddingTop: '90px',
         paddingBottom: '50px',
       }}
     >
-      {/* Layer 1 (z-index 0) — Full-Width Church Image Layer */}
+      {/* Layer 1 (z-index 0) — Full-Width Responsive Church Image Background */}
       <div
         className="position-absolute top-0 start-0 w-100 h-100"
         style={{ zIndex: 0 }}
@@ -38,27 +38,27 @@ export default function HeroSection() {
         />
       </div>
 
-      {/* Layer 2 (z-index 10) — Directional Gradient Overlay (Bright Church Left -> Dark Burgundy Right) */}
+      {/* Layer 2 (z-index 10) — Directional Gradient Overlay (Responsive for RTL/LTR & Mobile) */}
       <div
-        className="position-absolute top-0 start-0 w-100 h-100 pointer-events-none"
-        style={{
-          zIndex: 10,
-          background:
-            'linear-gradient(90deg, rgba(20, 7, 6, 0.05) 0%, rgba(20, 7, 6, 0.20) 35%, rgba(20, 7, 6, 0.65) 65%, rgba(20, 7, 6, 0.92) 88%, rgba(20, 7, 6, 0.98) 100%)',
-        }}
+        className="position-absolute top-0 start-0 w-100 h-100 pointer-events-none hero-overlay-gradient"
+        style={{ zIndex: 10 }}
       />
 
       {/* Atmosphere Effect */}
       <AtmosphereEffect density="medium" />
 
-      {/* Layer 3 (z-index 20) — Right-Aligned Content Container */}
+      {/* Layer 3 (z-index 20) — Centered Responsive Content Container */}
       <div
-        className="container position-relative my-auto"
-        style={{ zIndex: 20 }}
+        className="position-relative my-auto px-3 px-sm-4 px-md-5"
+        style={{
+          zIndex: 20,
+          width: 'min(92%, 1400px)',
+          marginInline: 'auto',
+        }}
       >
         <div className="row align-items-center justify-content-end">
-          {/* Right Content Column */}
-          <div className="col-lg-6 col-xl-5 text-center text-lg-start ms-auto pt-4 pt-lg-0">
+          {/* Content Column (Responsive start-aligned in both RTL & LTR) */}
+          <div className="col-lg-7 col-xl-6 text-center text-lg-start ms-auto pt-3 pt-lg-0">
             {/* Diocese Emblem Badge */}
             <ScrollReveal delayMs={200} direction="fade">
               <div
@@ -87,8 +87,8 @@ export default function HeroSection() {
                 className="fw-bold mb-3"
                 style={{
                   color: '#FFF8E8',
-                  fontSize: 'clamp(2.3rem, 3.8vw, 3.6rem)',
-                  lineHeight: 1.2,
+                  fontSize: 'clamp(2.1rem, 4.2vw, 4.2rem)',
+                  lineHeight: 1.18,
                   textShadow: '0 2px 14px rgba(0, 0, 0, 0.45)',
                   fontFamily: 'var(--font-kufi)',
                 }}
@@ -103,11 +103,12 @@ export default function HeroSection() {
             {/* Description */}
             <ScrollReveal delayMs={500} direction="up">
               <p
-                className="fs-5 mb-4 leading-relaxed"
+                className="mb-4 leading-relaxed mx-auto mx-lg-0"
                 style={{
                   color: 'rgba(255, 248, 232, 0.90)',
+                  fontSize: 'clamp(0.95rem, 2.2vw, 1.2rem)',
                   textShadow: '0 2px 10px rgba(0, 0, 0, 0.35)',
-                  maxWidth: '620px',
+                  maxWidth: '660px',
                 }}
               >
                 {t.hero.description}
@@ -116,7 +117,7 @@ export default function HeroSection() {
 
             {/* CTA Buttons */}
             <ScrollReveal delayMs={650} direction="up">
-              <div className="d-flex gap-3 justify-content-center justify-content-lg-start flex-wrap pt-2">
+              <div className="hero-cta-group d-flex gap-3 justify-content-center justify-content-lg-start flex-wrap pt-2">
                 <Link
                   href="/services"
                   className="btn px-4 py-3 fs-6 rounded-pill fw-bold text-decoration-none d-inline-flex align-items-center gap-2 transition-all"
