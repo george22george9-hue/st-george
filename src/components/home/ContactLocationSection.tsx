@@ -108,7 +108,7 @@ export default function ContactLocationSection() {
                           href={platform.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="btn btn-sm btn-burgundy rounded-pill px-3 flex-shrink-0"
+                          className="btn btn-sm btn-visit rounded-pill px-3 flex-shrink-0"
                           aria-label={`${platform.name} - ${platform.subtitle}`}
                         >
                           <span>{t.common.search ? (isAr ? 'زيارة' : 'Visit') : 'Visit'}</span>
