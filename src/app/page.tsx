@@ -47,7 +47,7 @@ export default async function HomePage() {
       <FathersSection />
 
       {/* Services Grid Section */}
-      <section className="py-5 position-relative" style={{ backgroundColor: 'var(--color-ivory)' }}>
+      <section id="services" className="py-5 position-relative" style={{ backgroundColor: 'var(--color-ivory)' }}>
         <CopticPattern opacity={0.03} />
         <div className="container py-4 position-relative z-1">
           <div className="text-center mb-5">
@@ -62,7 +62,7 @@ export default async function HomePage() {
       </section>
 
       {/* Church Digital Library Preview Section */}
-      <section className="py-5" style={{ backgroundColor: 'var(--color-cream)' }}>
+      <section id="library" className="py-5" style={{ backgroundColor: 'var(--color-cream)' }}>
         <div className="container py-4">
           <div className="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
             <div>

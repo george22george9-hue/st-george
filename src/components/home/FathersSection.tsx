@@ -10,7 +10,7 @@ export default function FathersSection() {
   const { t } = useLanguage();
 
   return (
-    <section className="py-5 position-relative" style={{ backgroundColor: 'var(--color-cream)' }}>
+    <section id="fathers" className="py-5 position-relative" style={{ backgroundColor: 'var(--color-cream)' }}>
       <div className="container py-4">
         {/* Section Title */}
         <ScrollReveal direction="up">

@@ -159,8 +159,18 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/masses" className="text-white-50 hover-text-white transition-fast">
+                  {t.nav.masses}
+                </Link>
+              </li>
+              <li>
                 <Link href="/media" className="text-white-50 hover-text-white transition-fast">
                   {t.nav.media}
+                </Link>
+              </li>
+              <li>
+                <Link href="/#contact" className="text-white-50 hover-text-white transition-fast">
+                  {t.nav.contact}
                 </Link>
               </li>
             </ul>
