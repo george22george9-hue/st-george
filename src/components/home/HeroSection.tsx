@@ -14,10 +14,10 @@ export default function HeroSection() {
     <section
       className="position-relative overflow-hidden d-flex align-items-center"
       style={{
-        minHeight: 'clamp(560px, 88dvh, 900px)',
+        minHeight: 'clamp(620px, 92dvh, 960px)',
         backgroundColor: '#140706',
-        paddingTop: '90px',
-        paddingBottom: '50px',
+        paddingTop: '125px',
+        paddingBottom: '65px',
       }}
     >
       {/* Layer 1 (z-index 0) — Full-Width Responsive Church Image Background */}
@@ -58,8 +58,8 @@ export default function HeroSection() {
       >
         <div className="row align-items-center justify-content-end">
           {/* Content Column (Responsive start-aligned in both RTL & LTR) */}
-          <div className="col-lg-7 col-xl-6 text-center text-lg-start ms-auto pt-3 pt-lg-0">
-            {/* Diocese Emblem Badge */}
+          <div className="col-lg-7 col-xl-6 text-center text-lg-start ms-auto pt-2 pt-lg-0">
+            {/* Diocese Emblem Badge (with ~25px breathing clearance below navbar) */}
             <ScrollReveal delayMs={200} direction="fade">
               <div
                 className="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill mb-3"

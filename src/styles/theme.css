@@ -198,6 +198,42 @@ html[dir="ltr"] .hero-overlay-gradient {
   transform: translateY(-2px);
 }
 
+/* Visit / زيارة Button High Contrast Styling */
+.btn-visit {
+  background-color: #FFF8E8 !important;
+  color: #6F1D1B !important;
+  border: 1px solid #D6A447 !important;
+  font-weight: 700;
+  font-family: var(--font-kufi);
+  transition: all var(--transition-fast);
+}
+
+.btn-visit i,
+.btn-visit span,
+.btn-visit svg {
+  color: #6F1D1B !important;
+}
+
+.btn-visit:hover,
+.btn-visit:focus,
+.btn-visit:active {
+  background-color: #6F1D1B !important;
+  color: #FFF8E8 !important;
+  border-color: #D6A447 !important;
+  box-shadow: 0 4px 14px rgba(111, 29, 27, 0.35);
+  transform: translateY(-2px);
+}
+
+.btn-visit:hover i,
+.btn-visit:hover span,
+.btn-visit:hover svg,
+.btn-visit:focus i,
+.btn-visit:focus span,
+.btn-visit:focus svg {
+  color: #FFF8E8 !important;
+}
+
+
 /* Badges */
 .badge-coptic {
   background: var(--color-parchment);
