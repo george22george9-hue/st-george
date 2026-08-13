@@ -143,7 +143,7 @@ export default function AdminBooksClient({ initialBooks, categories }: AdminBook
                           style={{ width: '45px', height: '60px', backgroundColor: 'var(--color-parchment-dark)' }}
                         >
                           <Image
-                            src={book.cover_image_url || '/images/church.jpg'}
+                            src={book.cover_image_url || '/images/church.jpeg'}
                             alt={book.title}
                             fill
                             sizes="45px"

@@ -244,7 +244,7 @@ export default function AdminMediaPage() {
                         {item.mime_type?.startsWith('video/') ? (
                           <video src={item.public_url || ''} className="w-100 h-100 object-fit-cover" />
                         ) : (
-                          <Image src={item.public_url || '/images/church.jpg'} alt={item.title || ''} fill sizes="200px" style={{ objectFit: 'cover' }} />
+                          <Image src={item.public_url || '/images/church.jpeg'} alt={item.title || ''} fill sizes="200px" style={{ objectFit: 'cover' }} />
                         )}
                       </div>
 

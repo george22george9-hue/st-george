@@ -74,11 +74,12 @@ export default function FathersSection() {
                     }}
                   >
                     <Image
-                      src="/images/church.jpg"
+                      src="/images/abona_wessa.jpeg"
                       alt={t.fathers.wissaTitle}
                       fill
                       sizes="130px"
-                      style={{ objectFit: 'cover' }}
+                      priority
+                      style={{ objectFit: 'cover', objectPosition: 'center 15%' }}
                     />
                   </div>
                   <h4 className="fs-4 mb-1" style={{ color: 'var(--color-burgundy)', fontFamily: 'var(--font-kufi)' }}>

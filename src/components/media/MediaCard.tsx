@@ -39,7 +39,7 @@ export default function MediaCard({ title, description, publicUrl, mimeType }: M
             </div>
           ) : (
             <Image
-              src={publicUrl || '/images/church.jpg'}
+              src={publicUrl || '/images/church.jpeg'}
               alt={title || 'وسائط الكنيسة'}
               fill
               sizes="(max-width: 768px) 100vw, 300px"
@@ -94,7 +94,7 @@ export default function MediaCard({ title, description, publicUrl, mimeType }: M
                 ) : (
                   <div className="position-relative w-100" style={{ height: '60vh' }}>
                     <Image
-                      src={publicUrl || '/images/church.jpg'}
+                      src={publicUrl || '/images/church.jpeg'}
                       alt={title || 'معاينة الوسيط'}
                       fill
                       style={{ objectFit: 'contain' }}

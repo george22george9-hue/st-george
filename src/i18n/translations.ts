@@ -28,6 +28,8 @@ export const translations = {
       ctaMasses: 'مواعيد القداسات',
       anbaMorcosTitle: 'الأنبا مرقس',
       anbaMorcosSub: 'مطران شبرا الخيمة وتوابعها',
+      frWessaTitle: 'القمص ويصا عزيز',
+      frWessaSub: 'كاهن كنيسة مارجرجس بسندبيس',
     },
 
     // Fathers & Clergy
@@ -192,6 +194,8 @@ export const translations = {
       ctaMasses: 'Divine Liturgy Schedule',
       anbaMorcosTitle: 'Anba Morcos',
       anbaMorcosSub: 'Metropolitan of Shubra El-Kheima & Dependencies',
+      frWessaTitle: 'Fr. Wessa Aziz',
+      frWessaSub: 'Parish Priest – St. George Church',
     },
 
     // Fathers & Clergy
