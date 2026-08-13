@@ -41,7 +41,7 @@ export default function HeroSection() {
 
       {/* Layer 2 (z-index 10) — Language-Aware Directional Gradient Overlay */}
       <div
-        className="position-absolute top-0 start-0 w-100 h-100 pointer-events-none hero-overlay-gradient"
+        className="position-absolute top-0 start-0 w-100 h-100 pointer-events-none"
         style={{
           zIndex: 10,
           background: isAr
@@ -62,17 +62,23 @@ export default function HeroSection() {
           marginInline: 'auto',
         }}
       >
+        {/* Flex Row: Pushes Content Column to RIGHT for Arabic, LEFT for English */}
         <div
           dir={isAr ? 'rtl' : 'ltr'}
-          className={`row align-items-center ${
-            isAr ? 'justify-content-center justify-content-lg-end' : 'justify-content-center justify-content-lg-start'
-          }`}
+          className="d-flex w-100"
+          style={{
+            justifyContent: isAr ? 'flex-end' : 'flex-start',
+          }}
         >
-          {/* Content Column (Right in Arabic RTL, Left in English LTR) */}
+          {/* Content Column (Explicitly RIGHT for AR, LEFT for EN) */}
           <div
-            className={`col-lg-7 col-xl-6 text-center pt-2 pt-lg-0 ${
-              isAr ? 'ms-lg-auto text-lg-end' : 'me-lg-auto text-lg-start'
-            }`}
+            className="col-12 col-lg-7 col-xl-6 pt-2 pt-lg-0"
+            style={{
+              textAlign: isAr ? 'right' : 'left',
+              direction: isAr ? 'rtl' : 'ltr',
+              marginLeft: isAr ? 'auto' : '0',
+              marginRight: isAr ? '0' : 'auto',
+            }}
           >
             {/* Diocese Emblem Badge */}
             <ScrollReveal delayMs={200} direction="fade">
@@ -106,6 +112,7 @@ export default function HeroSection() {
                   lineHeight: 1.18,
                   textShadow: '0 2px 14px rgba(0, 0, 0, 0.45)',
                   fontFamily: 'var(--font-kufi)',
+                  textAlign: isAr ? 'right' : 'left',
                 }}
               >
                 {t.hero.titleLine1} <br />
@@ -118,14 +125,15 @@ export default function HeroSection() {
             {/* Description */}
             <ScrollReveal delayMs={500} direction="up">
               <p
-                className={`mb-4 leading-relaxed mx-auto ${
-                  isAr ? 'ms-lg-auto me-lg-0' : 'me-lg-auto ms-lg-0'
-                }`}
+                className="mb-4 leading-relaxed"
                 style={{
                   color: 'rgba(255, 248, 232, 0.90)',
                   fontSize: 'clamp(0.95rem, 2.2vw, 1.2rem)',
                   textShadow: '0 2px 10px rgba(0, 0, 0, 0.35)',
                   maxWidth: '660px',
+                  textAlign: isAr ? 'right' : 'left',
+                  marginLeft: isAr ? 'auto' : '0',
+                  marginRight: isAr ? '0' : 'auto',
                 }}
               >
                 {t.hero.description}
@@ -135,9 +143,11 @@ export default function HeroSection() {
             {/* CTA Buttons */}
             <ScrollReveal delayMs={650} direction="up">
               <div
-                className={`hero-cta-group d-flex gap-3 justify-content-center ${
-                  isAr ? 'justify-content-lg-start' : 'justify-content-lg-start'
-                } flex-wrap pt-2`}
+                className="hero-cta-group d-flex gap-3 flex-wrap pt-2"
+                style={{
+                  justifyContent: isAr ? 'flex-start' : 'flex-start',
+                  direction: isAr ? 'rtl' : 'ltr',
+                }}
               >
                 <Link
                   href="/services"
