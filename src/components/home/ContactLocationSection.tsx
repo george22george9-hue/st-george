@@ -44,7 +44,7 @@ export default function ContactLocationSection() {
     : contactInfo.addressEn || t.contact.addressPlaceholder;
 
   return (
-    <section className="py-5 position-relative overflow-hidden" style={{ backgroundColor: 'var(--color-ivory)' }}>
+    <section id="contact" className="py-5 position-relative overflow-hidden" style={{ backgroundColor: 'var(--color-ivory)' }}>
       <CopticPattern opacity={0.03} />
 
       <div className="container py-4 position-relative z-1">

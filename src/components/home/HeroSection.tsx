@@ -13,6 +13,7 @@ export default function HeroSection() {
 
   return (
     <section
+      id="hero"
       className="position-relative overflow-hidden d-flex align-items-center"
       style={{
         minHeight: 'clamp(620px, 92dvh, 960px)',
