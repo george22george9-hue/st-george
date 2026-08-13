@@ -182,7 +182,7 @@ export default function Footer() {
                     href={contactInfo.googleMapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gold-light small hover-underline"
+                    className="text-gold-light small text-decoration-none"
                   >
                     <i className="fas fa-directions me-1" /> {t.contact.viewGoogleMaps}
                   </a>

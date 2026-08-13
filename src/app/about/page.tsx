@@ -46,7 +46,8 @@ export default function AboutPage() {
               <ChurchArch maxHeight="420px">
                 <div className="position-relative w-100 h-100" style={{ height: '380px' }}>
                   <Image
-                    src="/images/church.jpg"
+                  // church.jpeg
+                    src="/images/church.jpeg"
                     alt={t.nav.churchName}
                     fill
                     sizes="(max-width: 768px) 100vw, 500px"

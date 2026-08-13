@@ -66,7 +66,7 @@ async function renderHome() {
                         
                         <div class="card-3d-wrapper mb-4">
                             <div class="card-3d rounded-circle overflow-hidden shadow-lg p-2" style="width: 280px; height: 280px; background: rgba(212,175,55,0.1); border: 2px solid var(--color-accent);">
-                                <img src="anba-morcos.jpg" onerror="this.src='church.jpg'" alt="الأنبا مرقس" class="w-100 h-100 rounded-circle object-fit-cover">
+                                <img src="anba-morcos.jpg" onerror="this.src='church.jpeg'" alt="الأنبا مرقس" class="w-100 h-100 rounded-circle object-fit-cover">
                                 <div class="position-absolute top-0 start-0 w-100 h-100 rounded-circle" style="box-shadow: inset 0 0 40px rgba(6,10,23,0.9);"></div>
                             </div>
                         </div>
@@ -88,7 +88,7 @@ async function renderHome() {
                         
                         <div class="card-3d-wrapper mb-4">
                             <div class="card-3d rounded-circle overflow-hidden shadow-lg p-2" style="width: 280px; height: 280px; background: rgba(212,175,55,0.1); border: 2px solid var(--color-accent);">
-                                <img src="st-george.jpg" onerror="this.src='church.jpg'" alt="الشهيد مارجرجس" class="w-100 h-100 rounded-circle object-fit-cover">
+                                <img src="st-george.jpg" onerror="this.src='church.jpeg'" alt="الشهيد مارجرجس" class="w-100 h-100 rounded-circle object-fit-cover">
                                 <div class="position-absolute top-0 start-0 w-100 h-100 rounded-circle" style="box-shadow: inset 0 0 40px rgba(6,10,23,0.9);"></div>
                             </div>
                         </div>
