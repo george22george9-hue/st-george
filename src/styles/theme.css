@@ -47,17 +47,31 @@ a:hover {
 
 /* Hero Church Background Framing */
 .hero-church-bg {
-  background-image: linear-gradient(to bottom, rgba(25, 12, 8, 0.30), rgba(40, 12, 10, 0.58)), url('/images/church.jpeg');
+  background-image: linear-gradient(
+    90deg,
+    rgba(25, 10, 8, 0.02) 0%,
+    rgba(25, 10, 8, 0.12) 28%,
+    rgba(25, 10, 8, 0.50) 52%,
+    rgba(25, 10, 8, 0.82) 75%,
+    rgba(25, 10, 8, 0.95) 100%
+  ), url('/images/church.jpeg');
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center 38%;
+  background-position: left center;
 }
 
 @media (max-width: 991.98px) {
   .hero-church-bg {
+    background-image: linear-gradient(
+      180deg,
+      rgba(25, 10, 8, 0.25) 0%,
+      rgba(25, 10, 8, 0.65) 45%,
+      rgba(25, 10, 8, 0.92) 100%
+    ), url('/images/church.jpeg');
     background-position: center 25%;
   }
 }
+
 
 
 /* Parchment Surface Card */
