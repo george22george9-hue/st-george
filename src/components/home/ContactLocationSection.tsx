@@ -68,29 +68,23 @@ export default function ContactLocationSection() {
         <div className="row g-4 align-items-stretch">
           {/* LEFT/RIGHT Column: Social Media Platforms Cards */}
           <div className="col-lg-6">
-            <div className="d-flex flex-column gap-3 h-100 justify-content-center">
+            <div className="d-flex flex-column gap-3 h-100 justify-content-between">
               {socialPlatforms.map((platform, idx) => {
                 const hasUrl = Boolean(platform.url);
-
                 return (
-                  <ScrollReveal key={platform.id} delayMs={idx * 100} direction="up">
+                  <ScrollReveal key={platform.id} delayMs={100 * (idx + 1)} direction="up">
                     <div
-                      className={`card-parchment p-3 p-md-4 rounded-3 d-flex align-items-center justify-content-between position-relative overflow-hidden transition-fast ${
-                        hasUrl ? 'interactive-3d cursor-pointer' : ''
-                      }`}
-                      style={{
-                        border: '1.5px solid var(--color-gold-muted)',
-                        backgroundColor: 'var(--color-parchment)',
-                      }}
+                      className="card-parchment p-3 p-md-4 d-flex align-items-center justify-content-between gap-3"
+                      style={{ border: '1.5px solid var(--color-parchment-muted)' }}
                     >
                       <div className="d-flex align-items-center gap-3">
                         <div
-                          className="rounded-circle d-flex align-items-center justify-content-center text-white shadow-sm flex-shrink-0"
+                          className="rounded-circle d-flex align-items-center justify-content-center text-white flex-shrink-0 shadow-sm"
                           style={{
-                            width: '54px',
-                            height: '54px',
+                            width: '48px',
+                            height: '48px',
                             backgroundColor: platform.color,
-                            fontSize: '1.4rem',
+                            fontSize: '1.25rem',
                           }}
                         >
                           <i className={platform.icon} />
@@ -131,47 +125,58 @@ export default function ContactLocationSection() {
             <ScrollReveal delayMs={200} direction="up">
               <div
                 className="card-burgundy p-4 p-md-5 h-100 d-flex flex-column justify-content-between position-relative overflow-hidden rounded-3 shadow-lg"
-                style={{ border: '2px solid var(--color-gold-muted)' }}
+                style={{ border: '2px solid var(--color-gold-muted)', paddingTop: '36px' }}
               >
                 <div>
-                  <div className="d-flex align-items-center gap-3 mb-3">
-                    <div
-                      className="rounded-circle d-flex align-items-center justify-content-center"
-                      style={{
-                        width: '56px',
-                        height: '56px',
-                        backgroundColor: 'rgba(242, 231, 213, 0.15)',
-                        border: '1.5px solid var(--color-gold-muted)',
-                        color: 'var(--color-gold-light)',
-                        fontSize: '1.5rem',
-                      }}
-                    >
-                      <i className="fas fa-map-marker-alt" />
-                    </div>
+                  {/* Location Header Block: Badge at top, Icon + Title row underneath */}
+                  <div className="d-flex flex-column gap-3 mb-4">
+                    {/* 1. Top Diocese Badge */}
                     <div>
-                      <span className="badge-coptic mb-1">{t.nav.diocese}</span>
-                      <h3 className="fs-4 fw-bold text-parchment mb-0" style={{ fontFamily: 'var(--font-kufi)' }}>
+                      <span className="badge-coptic d-inline-block px-3 py-1.5 fs-6">{t.nav.diocese}</span>
+                    </div>
+
+                    {/* 2. Location Pin Icon + Church Name Row */}
+                    <div className="d-flex align-items-center gap-3">
+                      <div
+                        className="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 shadow-sm"
+                        style={{
+                          width: '52px',
+                          height: '52px',
+                          backgroundColor: 'rgba(242, 231, 213, 0.15)',
+                          border: '1.5px solid var(--color-gold-muted)',
+                          color: 'var(--color-gold-light)',
+                          fontSize: '1.4rem',
+                        }}
+                      >
+                        <i className="fas fa-map-marker-alt" />
+                      </div>
+                      <h3
+                        className="fs-4 fw-bold text-parchment mb-0 leading-tight"
+                        style={{ fontFamily: 'var(--font-kufi)', color: '#FFF8E8' }}
+                      >
                         {t.nav.churchName}
                       </h3>
                     </div>
                   </div>
 
+                  {/* 3. Location Address Line */}
                   <p className="text-white-50 fs-6 lh-lg mb-4">
                     {address}
                   </p>
 
+                  {/* 4. Information Box */}
                   <div
-                    className="p-3 rounded mb-4"
+                    className="p-3.5 rounded-3 mb-4"
                     style={{
-                      backgroundColor: 'rgba(0,0,0,0.25)',
-                      border: '1px solid rgba(212, 175, 55, 0.3)',
+                      backgroundColor: 'rgba(0,0,0,0.28)',
+                      border: '1px solid rgba(212, 175, 55, 0.35)',
                     }}
                   >
                     <div className="d-flex align-items-center gap-2 text-gold-light small mb-1 fw-bold">
                       <i className="fas fa-info-circle" />
                       <span>{t.contact.churchLocationSub}</span>
                     </div>
-                    <span className="small text-white-50">
+                    <span className="small text-white-50 lh-base d-block">
                       {isAr
                         ? 'يرحّب بنا الكنيسة بكافة الزوار والشعب في مواعيد القداسات والخدمات والنهضات المباركة.'
                         : 'The church welcomes all visitors and congregation during Holy Mass schedules and liturgical services.'}
@@ -179,6 +184,7 @@ export default function ContactLocationSection() {
                   </div>
                 </div>
 
+                {/* 5. Google Maps Action Button */}
                 <div className="pt-2">
                   {contactInfo.googleMapsUrl ? (
                     <a

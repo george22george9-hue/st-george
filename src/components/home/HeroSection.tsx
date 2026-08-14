@@ -18,7 +18,7 @@ export default function HeroSection() {
       style={{
         minHeight: 'clamp(620px, 92dvh, 960px)',
         backgroundColor: '#140706',
-        paddingTop: '125px',
+        paddingTop: '135px',
         paddingBottom: '65px',
       }}
     >
