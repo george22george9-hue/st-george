@@ -56,7 +56,8 @@ export default function Navbar() {
           marginInline: 'auto',
         }}
       >
-        <div className="d-flex align-items-center justify-content-between gap-3">
+        {/* DESKTOP HEADER (>= 1200px) */}
+        <div className="d-none d-xl-flex align-items-center justify-content-between gap-3 w-100">
           {/* Zone 1: Church Identity / Branding Block */}
           <Link
             href="/"
@@ -80,7 +81,7 @@ export default function Navbar() {
                 style={{
                   fontSize: '0.74rem',
                   color: 'var(--color-gold-muted)',
-                  letterSpacing: '0.01em',
+                  letterSpacing: '0',
                   fontFamily: 'var(--font-kufi)',
                 }}
               >
@@ -91,7 +92,7 @@ export default function Navbar() {
                 style={{
                   fontSize: 'clamp(0.9rem, 1.2vw, 1.12rem)',
                   fontFamily: 'var(--font-kufi)',
-                  letterSpacing: '-0.01em',
+                  letterSpacing: '0',
                 }}
               >
                 {t.nav.churchName}
@@ -100,7 +101,7 @@ export default function Navbar() {
           </Link>
 
           {/* Zone 2: Central Desktop Navigation Links (>= 1200px) */}
-          <nav className="d-none d-xl-flex align-items-center justify-content-center flex-grow-1 gap-1.5 gap-xxl-2.5 px-2">
+          <nav className="d-flex align-items-center justify-content-center flex-grow-1 gap-1.5 gap-xxl-2.5 px-2">
             {navLinks.map((link) => {
               const isActive =
                 link.href === '/#contact'
@@ -126,7 +127,7 @@ export default function Navbar() {
           </nav>
 
           {/* Zone 3: Desktop Header Actions — Donate + Language Switcher (>= 1200px) */}
-          <div className="d-none d-xl-flex align-items-center gap-2 flex-shrink-0">
+          <div className="d-flex align-items-center gap-2 flex-shrink-0">
             <Link href="/donate" className="btn-gold-subtle px-3 py-2 fs-6 text-nowrap flex-shrink-0">
               <i className="fas fa-heart me-1" style={{ fontSize: '0.88rem' }} /> {t.nav.donate}
             </Link>
@@ -147,26 +148,23 @@ export default function Navbar() {
               <span>{language === 'ar' ? 'EN' : 'العربية'}</span>
             </button>
           </div>
+        </div>
 
-          {/* Mobile & Tablet Right Controls (< 1200px): Language Switcher + Hamburger Toggle */}
-          <div className="d-xl-none d-flex align-items-center gap-2 flex-shrink-0">
+        {/* MOBILE & TABLET HEADER GRID (< 1200px) */}
+        <div
+          className="d-xl-none w-100"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'auto minmax(0, 1fr) auto',
+            alignItems: 'center',
+            gap: '12px',
+            minHeight: '44px',
+          }}
+        >
+          {/* Left Area: Hamburger Toggle + Compact Language Switcher */}
+          <div className="d-flex align-items-center gap-1.5 flex-shrink-0">
             <button
-              onClick={toggleLanguage}
-              className="btn btn-sm btn-outline-light rounded-pill px-2.5 py-1 fs-6"
-              style={{
-                borderColor: 'var(--color-gold-muted)',
-                color: 'var(--color-parchment)',
-                fontFamily: 'var(--font-kufi)',
-                fontSize: '0.8rem',
-              }}
-              aria-label="Change language"
-            >
-              <i className="fas fa-globe me-1" />
-              <span>{language === 'ar' ? 'EN' : 'العربية'}</span>
-            </button>
-
-            <button
-              className="btn text-parchment border-0 p-2 fs-4"
+              className="btn text-parchment border-0 p-2 fs-4 d-flex align-items-center justify-content-center"
               type="button"
               onClick={() => setIsOpen(!isOpen)}
               aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
@@ -174,7 +172,75 @@ export default function Navbar() {
             >
               <i className={`fas ${isOpen ? 'fa-times' : 'fa-bars'}`} />
             </button>
+
+            <button
+              onClick={toggleLanguage}
+              className="btn btn-sm btn-outline-light rounded-pill px-2.5 py-1 fs-6 text-nowrap d-flex align-items-center gap-1"
+              style={{
+                borderColor: 'var(--color-gold-muted)',
+                color: 'var(--color-parchment)',
+                fontFamily: 'var(--font-kufi)',
+                fontSize: '0.8rem',
+                minHeight: '44px',
+              }}
+              aria-label="Change language"
+            >
+              <i className="fas fa-globe" />
+              <span>{language === 'ar' ? 'EN' : 'العربية'}</span>
+            </button>
           </div>
+
+          {/* Center Area: Flexible Church Identity */}
+          <Link
+            href="/"
+            className="d-flex flex-column align-items-center justify-content-center text-center text-decoration-none px-1"
+            style={{ minWidth: 0, overflow: 'hidden' }}
+          >
+            <span
+              className="fw-bold text-truncate w-100"
+              style={{
+                fontSize: 'clamp(0.68rem, 2.1vw, 0.76rem)',
+                color: 'var(--color-gold-muted)',
+                letterSpacing: '0',
+                fontFamily: 'var(--font-kufi)',
+              }}
+            >
+              {t.nav.diocese}
+            </span>
+            <span
+              className="fw-bold text-white leading-tight w-100"
+              style={{
+                fontSize: 'clamp(0.85rem, 3.2vw, 1.05rem)',
+                fontFamily: 'var(--font-kufi)',
+                letterSpacing: '0',
+                display: '-webkit-box',
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+              }}
+            >
+              {t.nav.churchName}
+            </span>
+          </Link>
+
+          {/* Right Area: Coptic Cross Logo */}
+          <Link
+            href="/"
+            className="d-flex align-items-center justify-content-center flex-shrink-0 text-decoration-none"
+            style={{ minWidth: '44px', minHeight: '44px' }}
+          >
+            <div
+              className="rounded-circle d-flex align-items-center justify-content-center shadow-sm"
+              style={{
+                width: '42px',
+                height: '42px',
+                border: '1.5px solid var(--color-gold-muted)',
+                background: 'rgba(242,231,213,0.15)',
+              }}
+            >
+              <CopticCross size={22} color="var(--color-parchment)" />
+            </div>
+          </Link>
         </div>
 
         {/* Mobile & Tablet Dropdown Drawer (< 1200px) */}
