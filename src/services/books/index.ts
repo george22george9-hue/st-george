@@ -1,4 +1,5 @@
 import 'server-only';
+import { cache } from 'react';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdmin, requireUser } from '@/lib/auth/permissions';
 import {
@@ -15,12 +16,14 @@ import {
 } from '@/lib/storage/books';
 import { Book } from '@/types/database';
 
-export async function getAllBooks(includeUnpublished = true, categoryId?: string, sectionId?: string): Promise<Book[]> {
+const BOOK_COLUMNS = 'id, title, author, cover_image_url, description, section_id, category_id, is_published, created_at';
+
+export const getAllBooks = cache(async (includeUnpublished = true, categoryId?: string, sectionId?: string): Promise<Book[]> => {
   try {
     const supabase = await createClient();
     let query = supabase
       .from('books')
-      .select('*')
+      .select(BOOK_COLUMNS)
       .order('created_at', { ascending: false });
 
     if (!includeUnpublished) {
@@ -38,11 +41,11 @@ export async function getAllBooks(includeUnpublished = true, categoryId?: string
     // Fail-safe
   }
   return [];
-}
+});
 
-export async function getPublishedBooks(categoryId?: string, sectionId?: string): Promise<Book[]> {
+export const getPublishedBooks = cache(async (categoryId?: string, sectionId?: string): Promise<Book[]> => {
   return getAllBooks(false, categoryId, sectionId);
-}
+});
 
 export async function getBookById(id: string): Promise<Book | null> {
   const supabase = await createClient();

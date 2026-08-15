@@ -1,4 +1,5 @@
 import 'server-only';
+import { cache } from 'react';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdmin } from '@/lib/auth/permissions';
 import {
@@ -10,10 +11,12 @@ import {
 import { Category } from '@/types/database';
 import { CORE_SECTIONS_DATA } from '@/lib/constants/sections';
 
-export async function getAllCategories(includeInactive = true): Promise<Category[]> {
+const CATEGORY_COLUMNS = 'id, section_id, name, slug, description, image_url, cover_storage_path, display_order, is_active, created_at, updated_at';
+
+export const getAllCategories = cache(async (includeInactive = true): Promise<Category[]> => {
   try {
     const supabase = await createClient();
-    let query = supabase.from('categories').select('*').order('display_order', { ascending: true });
+    let query = supabase.from('categories').select(CATEGORY_COLUMNS).order('display_order', { ascending: true });
 
     if (!includeInactive) {
       query = query.eq('is_active', true);
@@ -47,14 +50,14 @@ export async function getAllCategories(includeInactive = true): Promise<Category
   });
 
   return includeInactive ? fallbackCats : fallbackCats.filter((c) => c.is_active);
-}
+});
 
-export async function getCategoriesBySection(sectionId: string, includeInactive = false): Promise<Category[]> {
+export const getCategoriesBySection = cache(async (sectionId: string, includeInactive = false): Promise<Category[]> => {
   try {
     const supabase = await createClient();
     let query = supabase
       .from('categories')
-      .select('*')
+      .select(CATEGORY_COLUMNS)
       .eq('section_id', sectionId)
       .order('display_order', { ascending: true });
 
@@ -70,40 +73,40 @@ export async function getCategoriesBySection(sectionId: string, includeInactive 
 
   const allFallback = await getAllCategories(includeInactive);
   return allFallback.filter((c) => c.section_id === sectionId);
-}
+});
 
-export async function getCategoryById(id: string): Promise<Category | null> {
+export const getCategoryById = cache(async (id: string): Promise<Category | null> => {
   try {
     const supabase = await createClient();
     const { data, error } = await supabase
       .from('categories')
-      .select('*')
+      .select(CATEGORY_COLUMNS)
       .eq('id', id)
-      .single();
+      .maybeSingle();
 
     if (!error && data) return data as Category;
   } catch {}
 
   const all = await getAllCategories(true);
   return all.find((c) => c.id === id) || null;
-}
+});
 
-export async function getCategoryBySlug(sectionId: string, slug: string): Promise<Category | null> {
+export const getCategoryBySlug = cache(async (sectionId: string, slug: string): Promise<Category | null> => {
   try {
     const supabase = await createClient();
     const { data, error } = await supabase
       .from('categories')
-      .select('*')
+      .select(CATEGORY_COLUMNS)
       .eq('section_id', sectionId)
       .eq('slug', slug)
-      .single();
+      .maybeSingle();
 
     if (!error && data) return data as Category;
   } catch {}
 
   const all = await getCategoriesBySection(sectionId, true);
   return all.find((c) => c.slug === slug) || null;
-}
+});
 
 export async function createCategory(input: CreateCategoryInput): Promise<Category> {
   await requireAdmin();

@@ -11,7 +11,7 @@ import { getAllCategories } from '@/services/categories';
 import { getPublishedBooks } from '@/services/books';
 import { Section, Category, Book } from '@/types/database';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 export default async function HomePage() {
   let sections: Section[] = [];

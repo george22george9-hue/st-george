@@ -5,7 +5,7 @@ import { getSections } from '@/services/sections';
 import { getAllCategories } from '@/services/categories';
 import { Section, Category } from '@/types/database';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 export const metadata = {
   title: 'الخدمات | كنيسة الشهيد العظيم مارجرجس بسندبيس',

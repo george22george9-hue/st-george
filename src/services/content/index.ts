@@ -1,4 +1,5 @@
 import 'server-only';
+import { cache } from 'react';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdmin } from '@/lib/auth/permissions';
 import {
@@ -9,15 +10,17 @@ import {
 } from '@/lib/validation/content';
 import { ContentItem, ContentMedia, ContentType } from '@/types/database';
 
-export async function getContentItems(options?: {
+const CONTENT_ITEM_COLUMNS = 'id, section_id, category_id, title, subtitle, description, content_type, cover_image_url, file_url, external_url, display_order, is_published, created_at';
+
+export const getContentItems = cache(async (options?: {
   sectionId?: string;
   categoryId?: string;
   contentType?: ContentType;
   includeUnpublished?: boolean;
-}): Promise<ContentItem[]> {
+}): Promise<ContentItem[]> => {
   try {
     const supabase = await createClient();
-    let query = supabase.from('content_items').select('*').order('display_order', { ascending: true }).order('created_at', { ascending: false });
+    let query = supabase.from('content_items').select(CONTENT_ITEM_COLUMNS).order('display_order', { ascending: true }).order('created_at', { ascending: false });
 
     if (!options?.includeUnpublished) {
       query = query.eq('is_published', true);
@@ -43,7 +46,7 @@ export async function getContentItems(options?: {
     // Fail-safe
   }
   return [];
-}
+});
 
 export async function getContentItemById(id: string): Promise<{ item: ContentItem; media: ContentMedia[] } | null> {
   const supabase = await createClient();
