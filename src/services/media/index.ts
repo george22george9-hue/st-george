@@ -1,4 +1,5 @@
 import 'server-only';
+import { cache } from 'react';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdmin } from '@/lib/auth/permissions';
 import {
@@ -10,14 +11,16 @@ import {
 import { uploadPublicImage, getMediaImageStoragePath, deletePublicImage } from '@/lib/storage/images';
 import { Media } from '@/types/database';
 
-export async function getMediaItems(
+const MEDIA_COLUMNS = 'id, title, description, public_url, mime_type, file_size, width, height, section_id, category_id, is_published, created_at';
+
+export const getMediaItems = cache(async (
   sectionId?: string,
   categoryId?: string,
   includeUnpublished = false
-): Promise<Media[]> {
+): Promise<Media[]> => {
   try {
     const supabase = await createClient();
-    let query = supabase.from('media').select('*').order('created_at', { ascending: false });
+    let query = supabase.from('media').select(MEDIA_COLUMNS).order('created_at', { ascending: false });
 
     if (!includeUnpublished) {
       query = query.eq('is_published', true);
@@ -34,7 +37,7 @@ export async function getMediaItems(
     // Fail-safe
   }
   return [];
-}
+});
 
 export async function uploadAndCreateMedia(
   imageBuffer: Uint8Array,

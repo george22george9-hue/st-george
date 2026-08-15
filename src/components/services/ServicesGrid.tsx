@@ -83,7 +83,7 @@ export default function ServicesGrid({ groups }: ServicesGridProps) {
               {group.categories.map((cat, catIdx) => (
                 <div className="col-lg-3 col-md-4 col-sm-6" key={cat.id}>
                   <ScrollReveal delayMs={catIdx * 60} direction="up">
-                    <Link href={`/service/${cat.id}`} className="text-decoration-none d-block h-100">
+                    <Link href={`/service/${cat.id}`} prefetch={true} className="text-decoration-none d-block h-100">
                       <div className="card-parchment overflow-hidden text-center h-100 d-flex flex-column justify-content-between interactive-3d position-relative">
                         {cat.image_url ? (
                           <div className="position-relative w-100" style={{ height: '150px' }}>
@@ -91,7 +91,7 @@ export default function ServicesGrid({ groups }: ServicesGridProps) {
                               src={cat.image_url}
                               alt={cat.name}
                               fill
-                              sizes="(max-width: 768px) 100vw, 300px"
+                              sizes="(max-width: 576px) 100vw, (max-width: 992px) 50vw, 300px"
                               style={{ objectFit: 'cover' }}
                             />
                             <div className="position-absolute inset-0 bg-dark bg-opacity-30" />

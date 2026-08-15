@@ -1,4 +1,5 @@
 import 'server-only';
+import { cache } from 'react';
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdmin } from '@/lib/auth/permissions';
@@ -13,10 +14,12 @@ import { CORE_SECTION_SLUGS, CORE_SECTIONS_DATA } from '@/lib/constants/sections
 
 export { CORE_SECTION_SLUGS, CORE_SECTIONS_DATA };
 
-export async function getSections(includeInactive = false): Promise<Section[]> {
+const SECTION_COLUMNS = 'id, name, slug, description, image_url, cover_storage_path, display_order, is_active, created_at, updated_at';
+
+export const getSections = cache(async (includeInactive = false): Promise<Section[]> => {
   try {
     const supabase = await createClient();
-    let query = supabase.from('sections').select('*').order('display_order', { ascending: true });
+    let query = supabase.from('sections').select(SECTION_COLUMNS).order('display_order', { ascending: true });
 
     if (!includeInactive) {
       query = query.eq('is_active', true);
@@ -44,39 +47,55 @@ export async function getSections(includeInactive = false): Promise<Section[]> {
   }));
 
   return includeInactive ? fallback : fallback.filter((s) => s.is_active);
-}
+});
 
-export async function getSectionById(id: string): Promise<Section | null> {
+export const getSectionById = cache(async (id: string): Promise<Section | null> => {
   try {
     const supabase = await createClient();
     const { data, error } = await supabase
       .from('sections')
-      .select('*')
+      .select(SECTION_COLUMNS)
       .eq('id', id)
-      .single();
+      .maybeSingle();
 
     if (!error && data) return data as Section;
   } catch {}
 
   const all = await getSections(true);
   return all.find((s) => s.id === id) || null;
-}
+});
 
-export async function getSectionBySlug(slug: string): Promise<Section | null> {
+export const getSectionBySlug = cache(async (slug: string): Promise<Section | null> => {
   try {
     const supabase = await createClient();
     const { data, error } = await supabase
       .from('sections')
-      .select('*')
+      .select(SECTION_COLUMNS)
       .eq('slug', slug)
-      .single();
+      .maybeSingle();
 
     if (!error && data) return data as Section;
   } catch {}
 
   const all = await getSections(true);
   return all.find((s) => s.slug === slug) || null;
-}
+});
+
+export const getSectionByIdOrSlug = cache(async (identifier: string): Promise<Section | null> => {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('sections')
+      .select(SECTION_COLUMNS)
+      .or(`id.eq.${identifier},slug.eq.${identifier}`)
+      .maybeSingle();
+
+    if (!error && data) return data as Section;
+  } catch {}
+
+  const all = await getSections(true);
+  return all.find((s) => s.id === identifier || s.slug === identifier) || null;
+});
 
 export async function createSection(input: CreateSectionInput): Promise<Section> {
   await requireAdmin();

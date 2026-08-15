@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import CopticDivider from '@/components/ornaments/CopticDivider';
@@ -7,30 +8,37 @@ import Church3DIcon from '@/components/ornaments/Church3DIcon';
 import ScrollReveal from '@/components/shared/ScrollReveal';
 import PosterModalViewer from '@/components/shared/PosterModalViewer';
 import ContentGalleryViewer from '@/components/shared/ContentGalleryViewer';
-import { getSectionById, getSectionBySlug } from '@/services/sections';
+import { getSectionByIdOrSlug } from '@/services/sections';
 import { getCategoryById, getCategoriesBySection } from '@/services/categories';
 import { getPublishedBooks } from '@/services/books';
 import { getMediaItems } from '@/services/media';
 import { getContentItems } from '@/services/content';
 import { Section, Category, Book, Media, ContentItem } from '@/types/database';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 interface SingleServicePageProps {
   params: Promise<{ id: string }>;
 }
+
+const getServiceEntity = cache(async (id: string) => {
+  const [section, category] = await Promise.all([
+    getSectionByIdOrSlug(id),
+    getCategoryById(id),
+  ]);
+  return { section, category };
+});
 
 export async function generateMetadata({ params }: SingleServicePageProps) {
   const { id } = await params;
   let title = 'تفاصيل الخدمة | كنيسة مارجرجس';
 
   try {
-    const sec = (await getSectionById(id)) || (await getSectionBySlug(id));
-    if (sec) {
-      title = `${sec.name} | كنيسة مارجرجس بسندبيس`;
-    } else {
-      const cat = await getCategoryById(id);
-      if (cat) title = `${cat.name} | كنيسة مارجرجس بسندبيس`;
+    const { section, category } = await getServiceEntity(id);
+    if (section) {
+      title = `${section.name} | كنيسة مارجرجس بسندبيس`;
+    } else if (category) {
+      title = `${category.name} | كنيسة مارجرجس بسندبيس`;
     }
   } catch {
     title = 'تفاصيل الخدمة | كنيسة مارجرجس';
@@ -50,33 +58,30 @@ export default async function SingleServicePage({ params }: SingleServicePagePro
   let contentItems: ContentItem[] = [];
 
   try {
-    // 1. Try finding section by ID or Slug
-    section = (await getSectionById(id)) || (await getSectionBySlug(id));
+    const entity = await getServiceEntity(id);
+    section = entity.section;
+    category = entity.category;
 
     if (section) {
       const [cats, bList, mList, cList] = await Promise.all([
         getCategoriesBySection(section.id, false),
         getPublishedBooks(undefined, section.id),
-        getMediaItems(undefined, section.id),
+        getMediaItems(section.id, undefined),
         getContentItems({ sectionId: section.id }),
       ]);
       childCategories = cats;
       books = bList;
       mediaList = mList;
       contentItems = cList;
-    } else {
-      // 2. Try finding category by ID
-      category = await getCategoryById(id);
-      if (category) {
-        const [bList, mList, cList] = await Promise.all([
-          getPublishedBooks(category.id, undefined),
-          getMediaItems(category.id, undefined),
-          getContentItems({ categoryId: category.id }),
-        ]);
-        books = bList;
-        mediaList = mList;
-        contentItems = cList;
-      }
+    } else if (category) {
+      const [bList, mList, cList] = await Promise.all([
+        getPublishedBooks(category.id, undefined),
+        getMediaItems(undefined, category.id),
+        getContentItems({ categoryId: category.id }),
+      ]);
+      books = bList;
+      mediaList = mList;
+      contentItems = cList;
     }
   } catch {
     section = null;
@@ -116,7 +121,14 @@ export default async function SingleServicePage({ params }: SingleServicePagePro
           <div className="text-center mb-5">
             {coverImageUrl ? (
               <div className="position-relative mx-auto rounded-3 overflow-hidden shadow-lg mb-4" style={{ maxWidth: '850px', height: '320px', border: '2px solid var(--color-gold-muted)' }}>
-                <Image src={coverImageUrl} alt={targetName || 'غلاف الخدمة'} fill priority style={{ objectFit: 'cover' }} />
+                <Image
+                  src={coverImageUrl}
+                  alt={targetName || 'غلاف الخدمة'}
+                  fill
+                  priority
+                  sizes="(max-width: 850px) 100vw, 850px"
+                  style={{ objectFit: 'cover' }}
+                />
                 <div className="position-absolute inset-0 bg-dark bg-opacity-40 d-flex align-items-center justify-content-center p-4">
                   <div className="text-center text-white">
                     <h1 className="display-4 fw-bold mb-2 text-parchment" style={{ fontFamily: 'var(--font-kufi)' }}>
@@ -208,11 +220,17 @@ export default async function SingleServicePage({ params }: SingleServicePagePro
               {childCategories.map((cat, idx) => (
                 <div className="col-lg-3 col-md-4 col-sm-6" key={cat.id}>
                   <ScrollReveal delayMs={idx * 50} direction="up">
-                    <Link href={`/service/${cat.id}`} className="text-decoration-none d-block h-100">
+                    <Link href={`/service/${cat.id}`} prefetch={true} className="text-decoration-none d-block h-100">
                       <div className="card-parchment p-4 text-center h-100 d-flex flex-column justify-content-center align-items-center interactive-3d">
                         {cat.image_url ? (
                           <div className="position-relative w-100 mb-2 rounded overflow-hidden" style={{ height: '110px' }}>
-                            <Image src={cat.image_url} alt={cat.name} fill style={{ objectFit: 'cover' }} />
+                            <Image
+                              src={cat.image_url}
+                              alt={cat.name}
+                              fill
+                              sizes="(max-width: 576px) 100vw, 300px"
+                              style={{ objectFit: 'cover' }}
+                            />
                           </div>
                         ) : (
                           <i className="fas fa-folder fs-2 mb-2 text-burgundy" />
